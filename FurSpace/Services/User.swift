@@ -1,0 +1,206 @@
+import Foundation
+import SwiftUI
+import MapKit
+
+struct User: Identifiable, Hashable, Decodable, Encodable, Equatable {
+    let id: String
+    var username: String
+    var profileimageurl: String?
+    let email: String
+    var fullname: String?
+    var bio: String?
+    let userType: String
+    let coordinate: CLLocationCoordinate2D
+    var followers: Int
+    var following: Int
+
+    // Manual decoding for coordinate
+    enum CodingKeys: String, CodingKey {
+        case id, username, profileimageurl, email, fullname, bio, userType, latitude, longitude, followers, following
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decode(String.self, forKey: .id)
+        username = try container.decode(String.self, forKey: .username)
+        profileimageurl = try container.decodeIfPresent(String.self, forKey: .profileimageurl)
+        email = try container.decode(String.self, forKey: .email)
+        fullname = try container.decodeIfPresent(String.self, forKey: .fullname)
+        bio = try container.decodeIfPresent(String.self, forKey: .bio)
+        userType = try container.decode(String.self, forKey: .userType)
+        followers = try container.decode(Int.self, forKey: .followers)
+        following = try container.decode(Int.self, forKey: .following)
+        
+        let latitude = try container.decode(CLLocationDegrees.self, forKey: .latitude)
+        let longitude = try container.decode(CLLocationDegrees.self, forKey: .longitude)
+        coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    // Manual encoding for coordinate
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(id, forKey: .id)
+        try container.encode(username, forKey: .username)
+        try container.encode(profileimageurl, forKey: .profileimageurl)
+        try container.encode(email, forKey: .email)
+        try container.encode(fullname, forKey: .fullname)
+        try container.encode(bio, forKey: .bio)
+        try container.encode(userType, forKey: .userType)
+        try container.encode(followers, forKey: .followers)
+        try container.encode(following, forKey: .following)
+        
+        try container.encode(coordinate.latitude, forKey: .latitude)
+        try container.encode(coordinate.longitude, forKey: .longitude)
+    }
+    
+    // Default initializer
+    init(id: String, username: String, profileimageurl: String?, email: String, fullname: String?, bio: String?, userType: String, coordinate: CLLocationCoordinate2D, followers: Int, following: Int) {
+        self.id = id
+        self.username = username
+        self.profileimageurl = profileimageurl
+        self.email = email
+        self.fullname = fullname
+        self.bio = bio
+        self.userType = userType
+        self.coordinate = coordinate
+        self.followers = followers
+        self.following = following
+    }
+    
+    // Equatable conformance
+    static func == (lhs: User, rhs: User) -> Bool {
+        return lhs.id == rhs.id &&
+               lhs.username == rhs.username &&
+               lhs.profileimageurl == rhs.profileimageurl &&
+               lhs.email == rhs.email &&
+               lhs.fullname == rhs.fullname &&
+               lhs.bio == rhs.bio &&
+               lhs.userType == rhs.userType &&
+               lhs.coordinate.latitude == rhs.coordinate.latitude &&
+               lhs.coordinate.longitude == rhs.coordinate.longitude &&
+               lhs.followers == rhs.followers &&
+               lhs.following == rhs.following
+    }
+    
+    // Hashable conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(username)
+        hasher.combine(profileimageurl)
+        hasher.combine(email)
+        hasher.combine(fullname)
+        hasher.combine(bio)
+        hasher.combine(userType)
+        hasher.combine(coordinate.latitude)
+        hasher.combine(coordinate.longitude)
+        hasher.combine(followers)
+        hasher.combine(following)
+    }
+}
+
+extension User {
+    static var MOCK_USER: [User] = [
+        .init(id: NSUUID().uuidString,
+              username: "martha",
+              profileimageurl: "luffy",
+              email: "marsh@gmail.com",
+              fullname: "martha wayne",
+              bio: "dark knight's mom",
+              userType: "Dog Owner",
+              coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
+              followers: 150,
+              following: 100),
+        .init(id: NSUUID().uuidString,
+              username: "dj",
+              profileimageurl: "doggy",
+              email: "marsh2@gmail.com",
+              fullname: "dwanye barvo",
+              bio: "i play for csk",
+              userType: "Dog Walker",
+              coordinate: CLLocationCoordinate2D(latitude: 37.7849, longitude: -122.4094),
+              followers: 200,
+              following: 180),
+        .init(id: NSUUID().uuidString,
+              username: "alfred",
+              profileimageurl: "doggy",
+              email: "marsh1@gmail.com",
+              fullname: "bane",
+              bio: "dark knight's sidekick",
+              userType: "Dog Walker",
+              coordinate: CLLocationCoordinate2D(latitude: 37.7949, longitude: -122.3994),
+              followers: 300,
+              following: 250),
+        .init(id: NSUUID().uuidString,
+              username: "bane",
+              profileimageurl: "luffy",
+              email: "marsh3@gmail.com",
+              fullname: "i'm from a dark jail",
+              bio: "i appear in the dark knight series",
+              userType: "Dog Walker",
+              coordinate: CLLocationCoordinate2D(latitude: 37.3382, longitude: -121.8863),
+              followers: 400,
+              following: 350),
+        .init(id: NSUUID().uuidString,
+              username: "clark",
+              profileimageurl: "user_20",
+              email: "clark@gmail.com",
+              fullname: "clark kent",
+              bio: "superman by day, reporter by night",
+              userType: "Dog Owner",
+              coordinate: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437),
+              followers: 500,
+              following: 450), // Los Angeles
+        .init(id: NSUUID().uuidString,
+              username: "bruce",
+              profileimageurl: "user_30",
+              email: "bruce@gmail.com",
+              fullname: "bruce wayne",
+              bio: "dark knight rises",
+              userType: "Dog Owner",
+              coordinate: CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060),
+              followers: 600,
+              following: 550), // New York
+        .init(id: NSUUID().uuidString,
+              username: "harley",
+              profileimageurl: "user_31",
+              email: "harley@gmail.com",
+              fullname: "harley quinn",
+              bio: "villain turned anti-hero",
+              userType: "Dog Walker",
+              coordinate: CLLocationCoordinate2D(latitude: 41.8781, longitude: -87.6298),
+              followers: 700,
+              following: 650), // Chicago
+        .init(id: NSUUID().uuidString,
+              username: "oliver",
+              profileimageurl: "user_32",
+              email: "oliver@gmail.com",
+              fullname: "oliver queen",
+              bio: "green arrow",
+              userType: "Dog Owner",
+              coordinate: CLLocationCoordinate2D(latitude: 47.6062, longitude: -122.3321),
+              followers: 800,
+              following: 750), // Seattle
+        .init(id: NSUUID().uuidString,
+              username: "diana",
+              profileimageurl: "user_33",
+              email: "diana@gmail.com",
+              fullname: "diana prince",
+              bio: "wonder woman",
+              userType: "Dog Walker",
+              coordinate: CLLocationCoordinate2D(latitude: 38.9072, longitude: -77.0369),
+              followers: 900,
+              following: 850), // Washington, D.C.
+        .init(id: NSUUID().uuidString,
+              username: "barry",
+              profileimageurl: "user_34",
+              email: "barry@gmail.com",
+              fullname: "barry allen",
+              bio: "fastest man alive",
+              userType: "Dog Owner",
+              coordinate: CLLocationCoordinate2D(latitude: 29.7604, longitude: -95.3698),
+              followers: 1000,
+              following: 950) // Houston
+    ]
+}
