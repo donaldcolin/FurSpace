@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Dogprofile: View {
-    let pest: pets
+    let pest: Pets
     var dogImage: String = "doggy" // Replace with dynamic dog image
     
     // State variable to toggle extra info visibility

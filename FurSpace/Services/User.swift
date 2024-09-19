@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import MapKit
 
+// MARK: - User Model
 struct User: Identifiable, Hashable, Decodable, Encodable, Equatable {
     let id: String
     var username: String
@@ -13,10 +14,11 @@ struct User: Identifiable, Hashable, Decodable, Encodable, Equatable {
     let coordinate: CLLocationCoordinate2D
     var followers: Int
     var following: Int
+    var pets: [Pets] // Reference to Pets model
 
-    // Manual decoding for coordinate
+    // Manual decoding for coordinate and pets
     enum CodingKeys: String, CodingKey {
-        case id, username, profileimageurl, email, fullname, bio, userType, latitude, longitude, followers, following
+        case id, username, profileimageurl, email, fullname, bio, userType, latitude, longitude, followers, following, pets
     }
 
     init(from decoder: Decoder) throws {
@@ -35,9 +37,11 @@ struct User: Identifiable, Hashable, Decodable, Encodable, Equatable {
         let latitude = try container.decode(CLLocationDegrees.self, forKey: .latitude)
         let longitude = try container.decode(CLLocationDegrees.self, forKey: .longitude)
         coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        pets = try container.decode([Pets].self, forKey: .pets) // Decode pets
     }
     
-    // Manual encoding for coordinate
+    // Manual encoding for coordinate and pets
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
@@ -53,10 +57,12 @@ struct User: Identifiable, Hashable, Decodable, Encodable, Equatable {
         
         try container.encode(coordinate.latitude, forKey: .latitude)
         try container.encode(coordinate.longitude, forKey: .longitude)
+        
+        try container.encode(pets, forKey: .pets) // Encode pets
     }
     
     // Default initializer
-    init(id: String, username: String, profileimageurl: String?, email: String, fullname: String?, bio: String?, userType: String, coordinate: CLLocationCoordinate2D, followers: Int, following: Int) {
+    init(id: String, username: String, profileimageurl: String?, email: String, fullname: String?, bio: String?, userType: String, coordinate: CLLocationCoordinate2D, followers: Int, following: Int, pets: [Pets]) {
         self.id = id
         self.username = username
         self.profileimageurl = profileimageurl
@@ -67,9 +73,10 @@ struct User: Identifiable, Hashable, Decodable, Encodable, Equatable {
         self.coordinate = coordinate
         self.followers = followers
         self.following = following
+        self.pets = pets
     }
-    
-    // Equatable conformance
+
+    // Manual Equatable conformance
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id &&
                lhs.username == rhs.username &&
@@ -81,10 +88,11 @@ struct User: Identifiable, Hashable, Decodable, Encodable, Equatable {
                lhs.coordinate.latitude == rhs.coordinate.latitude &&
                lhs.coordinate.longitude == rhs.coordinate.longitude &&
                lhs.followers == rhs.followers &&
-               lhs.following == rhs.following
+               lhs.following == rhs.following &&
+               lhs.pets == rhs.pets
     }
-    
-    // Hashable conformance
+
+    // Manual Hashable conformance
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
         hasher.combine(username)
@@ -97,9 +105,11 @@ struct User: Identifiable, Hashable, Decodable, Encodable, Equatable {
         hasher.combine(coordinate.longitude)
         hasher.combine(followers)
         hasher.combine(following)
+        hasher.combine(pets)
     }
 }
 
+// Mock users data
 extension User {
     static var MOCK_USER: [User] = [
         .init(id: NSUUID().uuidString,
@@ -111,7 +121,9 @@ extension User {
               userType: "Dog Owner",
               coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
               followers: 150,
-              following: 100),
+              following: 100,
+              pets: [mockPets[0]]), // Martha has one pet, Buddy
+              
         .init(id: NSUUID().uuidString,
               username: "dj",
               profileimageurl: "doggy",
@@ -121,7 +133,9 @@ extension User {
               userType: "Dog Walker",
               coordinate: CLLocationCoordinate2D(latitude: 37.7849, longitude: -122.4094),
               followers: 200,
-              following: 180),
+              following: 180,
+              pets: [mockPets[1]]), // DJ has one pet, Whiskers
+              
         .init(id: NSUUID().uuidString,
               username: "alfred",
               profileimageurl: "doggy",
@@ -131,27 +145,9 @@ extension User {
               userType: "Dog Walker",
               coordinate: CLLocationCoordinate2D(latitude: 37.7949, longitude: -122.3994),
               followers: 300,
-              following: 250),
-        .init(id: NSUUID().uuidString,
-              username: "bane",
-              profileimageurl: "luffy",
-              email: "marsh3@gmail.com",
-              fullname: "i'm from a dark jail",
-              bio: "i appear in the dark knight series",
-              userType: "Dog Walker",
-              coordinate: CLLocationCoordinate2D(latitude: 37.3382, longitude: -121.8863),
-              followers: 400,
-              following: 350),
-        .init(id: NSUUID().uuidString,
-              username: "clark",
-              profileimageurl: "user_20",
-              email: "clark@gmail.com",
-              fullname: "clark kent",
-              bio: "superman by day, reporter by night",
-              userType: "Dog Owner",
-              coordinate: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437),
-              followers: 500,
-              following: 450), // Los Angeles
+              following: 250,
+              pets: [mockPets[2]]), // Alfred has one pet, Max
+              
         .init(id: NSUUID().uuidString,
               username: "bruce",
               profileimageurl: "user_30",
@@ -161,46 +157,7 @@ extension User {
               userType: "Dog Owner",
               coordinate: CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060),
               followers: 600,
-              following: 550), // New York
-        .init(id: NSUUID().uuidString,
-              username: "harley",
-              profileimageurl: "user_31",
-              email: "harley@gmail.com",
-              fullname: "harley quinn",
-              bio: "villain turned anti-hero",
-              userType: "Dog Walker",
-              coordinate: CLLocationCoordinate2D(latitude: 41.8781, longitude: -87.6298),
-              followers: 700,
-              following: 650), // Chicago
-        .init(id: NSUUID().uuidString,
-              username: "oliver",
-              profileimageurl: "user_32",
-              email: "oliver@gmail.com",
-              fullname: "oliver queen",
-              bio: "green arrow",
-              userType: "Dog Owner",
-              coordinate: CLLocationCoordinate2D(latitude: 47.6062, longitude: -122.3321),
-              followers: 800,
-              following: 750), // Seattle
-        .init(id: NSUUID().uuidString,
-              username: "diana",
-              profileimageurl: "user_33",
-              email: "diana@gmail.com",
-              fullname: "diana prince",
-              bio: "wonder woman",
-              userType: "Dog Walker",
-              coordinate: CLLocationCoordinate2D(latitude: 38.9072, longitude: -77.0369),
-              followers: 900,
-              following: 850), // Washington, D.C.
-        .init(id: NSUUID().uuidString,
-              username: "barry",
-              profileimageurl: "user_34",
-              email: "barry@gmail.com",
-              fullname: "barry allen",
-              bio: "fastest man alive",
-              userType: "Dog Owner",
-              coordinate: CLLocationCoordinate2D(latitude: 29.7604, longitude: -95.3698),
-              followers: 1000,
-              following: 950) // Houston
+              following: 550,
+              pets: [mockPets[3]]) // Bruce has one pet, Coco
     ]
 }

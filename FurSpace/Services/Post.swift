@@ -1,8 +1,3 @@
-//
-//  Post.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 16/09/24.
 import Foundation
 
 struct Post: Identifiable, Hashable, Encodable {

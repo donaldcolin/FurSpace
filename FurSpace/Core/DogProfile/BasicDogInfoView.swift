@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BasicDogInfoView: View {
-    let pets : pets
+    let pets : Pets
     
     var dogBreed: String = "Golden Retriever" // Replace with dynamic breed
     var dogImage: String = "doggy" // Replace with dynamic dog image

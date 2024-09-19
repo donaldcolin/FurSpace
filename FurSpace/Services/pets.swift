@@ -4,10 +4,10 @@
 //
 //  Created by Donald Colin on 19/09/24.
 //
-
 import Foundation
 
-struct pets: Identifiable, Hashable, Decodable, Encodable, Equatable {
+// MARK: - Pets Model
+struct Pets: Identifiable, Hashable, Decodable, Encodable, Equatable {
     let id: String
     var petimageurl: String?
     var petname: String
@@ -21,9 +21,9 @@ struct pets: Identifiable, Hashable, Decodable, Encodable, Equatable {
     var isFurnitureAllowed: Bool
 }
 
-// Mock data
-let mockPets: [pets] = [
-    pets(
+// Mock pets data
+let mockPets: [Pets] = [
+    Pets(
         id: UUID().uuidString,
         petimageurl: "doggy",
         petname: "Buddy",
@@ -36,7 +36,7 @@ let mockPets: [pets] = [
         isSpayedNeutered: true,
         isFurnitureAllowed: false
     ),
-    pets(
+    Pets(
         id: UUID().uuidString,
         petimageurl: "doggy2",
         petname: "Whiskers",
@@ -49,7 +49,7 @@ let mockPets: [pets] = [
         isSpayedNeutered: false,
         isFurnitureAllowed: true
     ),
-    pets(
+    Pets(
         id: UUID().uuidString,
         petimageurl: "dogfam",
         petname: "Max",
@@ -62,9 +62,9 @@ let mockPets: [pets] = [
         isSpayedNeutered: true,
         isFurnitureAllowed: true
     ),
-    pets(
+    Pets(
         id: UUID().uuidString,
-        petimageurl: nil, // No image provided for this pet
+        petimageurl: nil,
         petname: "Coco",
         activities: "Flying around the house, Mimicking sounds",
         age: 4,
@@ -72,8 +72,7 @@ let mockPets: [pets] = [
         gender: "Female",
         type: "Bird",
         isPottyTrained: false,
-        isSpayedNeutered: nil, // Not applicable for this type of pet
+        isSpayedNeutered: nil,
         isFurnitureAllowed: false
     )
 ]
-

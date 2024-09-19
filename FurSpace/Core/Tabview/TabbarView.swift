@@ -39,7 +39,7 @@ struct TabbarView: View {
             
            
             
-            UserProfileView(user: User.MOCK_USER[3], pets: mockPets[0])
+            UserProfileView(user: User.MOCK_USER[1])
                 .tabItem {
                     Image(systemName: "person")
                     
