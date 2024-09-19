@@ -5,28 +5,27 @@ struct PostorRequestSelectionView: View {
         NavigationView {
             VStack(spacing: 20) {
                 Spacer()
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20) {
-                        NavigationLink(destination: AddRequestView()) {
-                            CustomRowView(buttonTitle: "Add a Post", backgroundColor: .orange)
-                        }
-                        
-                        NavigationLink(destination: AddDogBoardingRequestView()) {
-                            CustomRowView(buttonTitle: "Add a Request for Dog Boarding", backgroundColor: .green)
-                        }
-                        
-                        NavigationLink(destination: AddDogWalkingRequestView()) {
-                            CustomRowView(buttonTitle: "Add a Request for Dog Walking", backgroundColor: .blue)
-                        }
-                        
-                        NavigationLink(destination: DoctorRequestView()) {
-                            CustomRowView(buttonTitle: "Get a Consult from a Vet", backgroundColor: .purple)
-                        }
+                
+                // 2x2 Grid of Tiles
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
+                    NavigationLink(destination: AddRequestView()) {
+                        CustomRowView(buttonTitle: "Add a Post", backgroundColor: .white,  backgroundImage: "doh") // Example background image
                     }
-                    .padding(.horizontal)
+                    
+                    NavigationLink(destination: AddRequestView()) {
+                        CustomRowView(buttonTitle: "Add a Request for Dog Boarding", backgroundColor: .green, backgroundImage: "dogfam")
+                    }
+                    
+                    NavigationLink(destination: AddRequestView()) {
+                        CustomRowView(buttonTitle: "Add a Request for Dog Walking", backgroundColor: .blue, backgroundImage: "dogwalk")
+                    }
+                    
+                    NavigationLink(destination: DoctorRequestView()) {
+                        CustomRowView(buttonTitle: "Get a Consult from a Vet", backgroundColor: .purple, backgroundImage: "vet")
+                    }
                 }
-
+                .padding(.horizontal)
+                
                 Spacer()
             }
             .padding()
@@ -38,50 +37,42 @@ struct PostorRequestSelectionView: View {
 struct CustomRowView: View {
     var buttonTitle: String
     var backgroundColor: Color
-
+    var backgroundImage: String // Image name passed as a parameter
+    
     var body: some View {
-        HStack {
-            Text(buttonTitle)
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding(.leading, 20)
-            Spacer()
-            Image(systemName: "chevron.right")
-                .foregroundColor(.white)
-                .padding(.trailing, 20)
+        ZStack {
+            // Background Image
+            Image(backgroundImage)
+                .resizable()
+                .scaledToFill() // Ensures the image fills the tile
+                .frame(width: 160, height: 280) // Same size as the tile
+                .clipped() // Ensures the image does not overflow
+            
+            // Overlay for semi-transparency over the background image
+            Color.black.opacity(0.1) // A darker overlay to improve text visibility
+            
+            VStack {
+                Spacer()
+                
+                // Adding a semi-transparent background to the text
+                Text(buttonTitle)
+                    .bold()
+                    .font(.headline)
+                    .foregroundColor(.white) // White color for better contrast
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10) // Add padding to the text
+                    .background(Color.black.opacity(0.3)) // Background to enhance readability
+                    .cornerRadius(10)
+                    .multilineTextAlignment(.center)
+                
+                //Spacer()
+
+            }
         }
-        .frame(width: 250, height: 500) // Larger button size
-        .background(backgroundColor)
+        .frame(width: 160, height: 300) // Adjusted button size for grid
         .cornerRadius(20)
         .shadow(radius: 5)
-    }
-}
-
-// Sample destination views
-struct AddPostView: View {
-    var body: some View {
-        Text("Add a Post View")
-    }
-}
-
-struct AddDogBoardingRequestView: View {
-    var body: some View {
-        Text("Add a Request for Dog Boarding View")
-    }
-}
-
-struct AddDogWalkingRequestView: View {
-    var body: some View {
-        Text("Add a Request for Dog Walking View")
-    }
-}
-
-struct VetConsultView: View {
-    var body: some View {
-        Text("Get a Consult for a Vet View")
-    }
-}
-
+    }}
 #Preview {
     PostorRequestSelectionView()
 }

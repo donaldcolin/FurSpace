@@ -25,17 +25,19 @@ struct TabbarView: View {
                     Image(systemName: "map")
                   
                 }
-            
             PostorRequestSelectionView()
                 .tabItem {
                     Image(systemName: "plus")
                    
                 }
             
-            Dogprofile()
+            OwnServiceView()
                 .tabItem {
-                    Image(systemName: "pawprint.fill")
+                    Image(systemName: "cart.fill")
+                   
                 }
+            
+           
             
             UserProfileView(user: User.MOCK_USER[3])
                 .tabItem {
