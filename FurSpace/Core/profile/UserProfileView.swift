@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UserProfileView: View {
     let user: User
+    let pets : pets
 
     // State variable to toggle between user and dog profile
     @State private var showingDogProfile: Bool = false
@@ -23,7 +24,7 @@ struct UserProfileView: View {
                 ScrollView {
                     if showingDogProfile {
                         // Show Dog Profile when the toggle is on
-                        Dogprofile()
+                        Dogprofile(pest: pets)
                             .padding(.bottom, 1)
                     } else {
                         // Show User Profile when the toggle is off
@@ -71,5 +72,5 @@ struct UserProfileView: View {
 }
 
 #Preview {
-    UserProfileView(user: User.MOCK_USER[3])
+    UserProfileView(user: User.MOCK_USER[3], pets: mockPets[0])
 }

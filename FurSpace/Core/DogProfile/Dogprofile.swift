@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct Dogprofile: View {
-    var dogName: String = "Buddy"   // Replace with dynamic dog name
-    var dogBreed: String = "Golden Retriever" // Replace with dynamic breed
+    let pest: pets
     var dogImage: String = "doggy" // Replace with dynamic dog image
     
     // State variable to toggle extra info visibility
@@ -11,7 +10,7 @@ struct Dogprofile: View {
     var body: some View {
         ZStack {
             // Fixed Background Image
-            Image(dogImage)  // Replace with dynamic image name or URL
+            Image(pest.petimageurl ?? "placeholder") // Use `pest` instead of `pets`
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.all) // Fill the entire background
@@ -27,12 +26,15 @@ struct Dogprofile: View {
             
             // Foreground Content
             VStack {
-                BasicDogInfoView()
+                BasicDogInfoView(pets: pest) // Pass the single `pest` instance, not `mockPets`
                     .padding()
             }
         }
     }
 }
+
+
+
 #Preview {
-    Dogprofile()
+    Dogprofile(pest: mockPets[1])
 }

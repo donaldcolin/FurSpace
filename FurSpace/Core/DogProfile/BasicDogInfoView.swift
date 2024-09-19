@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct BasicDogInfoView: View {
+    let pets : pets
     
-    var dogName: String = "Buddy"   // Replace with dynamic dog name
     var dogBreed: String = "Golden Retriever" // Replace with dynamic breed
     var dogImage: String = "doggy" // Replace with dynamic dog image
     var petType: String = "Dog" // Replace with dynamic pet type
@@ -26,12 +26,12 @@ struct BasicDogInfoView: View {
             Spacer() // Push content to the bottom
             
             VStack(alignment: .leading, spacing: 5) {
-                Text(dogName)
+                Text(pets.petname)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                 
-                Text(dogBreed)
+                Text(pets.breed)
                     .font(.title2)
                     .foregroundColor(.white.opacity(0.8))
                 
@@ -63,25 +63,25 @@ struct BasicDogInfoView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                     
-                    Text("Type: \(petType)")
+                    Text("Type: \(pets.type)")
                         .foregroundColor(.white)
                     
-                    Text("Age: \(age)")
+                    Text("Age: \(pets.age)")
                         .foregroundColor(.white)
                     
-                    Text("Favorite Activity: \(favoriteActivity)")
+                    Text("Favorite Activity: \(pets.activities)")
                         .foregroundColor(.white)
                     
                     Text("Owner: Donald Colin") // Adjust or replace with dynamic owner name
                         .foregroundColor(.white)
                     
-                    Text("Potty Trained: \(isPottyTrained ? "Yes" : "No")")
+                    Text("Potty Trained: \(pets.isPottyTrained)")
                         .foregroundColor(.white)
                     
-                    Text("Vaccinated: \(isVaccinated ? "Yes" : "No")")
+                    Text("Vaccinated: \(pets.age)")
                         .foregroundColor(.white)
                     
-                    Text("Allowed on Furniture: \(furnitureAllowed ? "Yes" : "No")")
+                    Text("Allowed on Furniture: \(pets.isFurnitureAllowed)")
                         .foregroundColor(.white)
                     
                     // Add more details as needed
@@ -102,5 +102,5 @@ struct BasicDogInfoView: View {
 }
 
 #Preview {
-    BasicDogInfoView()
+    BasicDogInfoView(pets: mockPets[0])
 }

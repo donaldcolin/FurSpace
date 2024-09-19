@@ -15,6 +15,7 @@ struct OwnServiceView: View {
                 .bold()
             Text("Gps for pets ")
             Text("our collection of pet food")
+    
         }
     }
 }

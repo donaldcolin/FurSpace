@@ -1,26 +1,14 @@
 import SwiftUI
 
 struct PetQuestionnaireView: View {
-    @State private var petType: String = "Dog"
-    @State private var otherPetType: String = ""
-    @State private var breed: String = ""
-    @State private var isFurnitureAllowed: Bool = false
-    @State private var isPottyTrained: Bool = false
-    @State private var isVaccinated: Bool = false
-    @State private var petName: String = ""
-    @State private var activities: String = ""
-    @State private var petAge: String = ""
-    @State private var gender: String = "Male"
-    @State private var isSpayedNeutered: Bool = false
-    @State private var petImage: Image? = nil
+    @StateObject private var viewModel = PetQuestionnaireViewModel()
     @State private var isImagePickerPresented: Bool = false
-    
     let petTypes = ["Dog", "Cat", "Bird", "Others"]
     let genders = ["Male", "Female"]
     
     var body: some View {
         VStack {
-            NavigationStack{
+            NavigationStack {
                 ScrollView {
                     VStack(spacing: 20) {
                         // Pet Information Section
@@ -31,7 +19,7 @@ struct PetQuestionnaireView: View {
                             
                             // Pet Image Picker
                             VStack {
-                                if let petImage = petImage {
+                                if let petImage = viewModel.petImage {
                                     petImage
                                         .resizable()
                                         .scaledToFill()
@@ -53,10 +41,10 @@ struct PetQuestionnaireView: View {
                             }
                             .padding(.bottom, 20)
                             .sheet(isPresented: $isImagePickerPresented) {
-                                ImagePicker(image: $petImage)
+                                ImagePicker(image: $viewModel.petImage)
                             }
                             
-                            Picker("What pet do you own?", selection: $petType) {
+                            Picker("What pet do you own?", selection: $viewModel.petType) {
                                 ForEach(petTypes, id: \.self) {
                                     Text($0)
                                 }
@@ -64,24 +52,24 @@ struct PetQuestionnaireView: View {
                             .pickerStyle(SegmentedPickerStyle())
                             .padding(.vertical)
                             
-                            if petType == "Others" {
-                                TextField("Specify the pet", text: $otherPetType)
+                            if viewModel.petType == "Others" {
+                                TextField("Specify the pet", text: $viewModel.otherPetType)
                                     .padding()
                                     .background(Color(.secondarySystemBackground))
                                     .cornerRadius(8)
                             }
                             
-                            TextField("Breed of Pet", text: $breed)
+                            TextField("Breed of Pet", text: $viewModel.breed)
                                 .padding()
                                 .background(Color(.secondarySystemBackground))
                                 .cornerRadius(8)
                             
-                            TextField("Pet Name", text: $petName)
+                            TextField("Pet Name", text: $viewModel.petName)
                                 .padding()
                                 .background(Color(.secondarySystemBackground))
                                 .cornerRadius(8)
                             
-                            TextField("Pet Age (in years)", text: $petAge)
+                            TextField("Pet Age (in years)", text: $viewModel.petAge)
                                 .keyboardType(.numberPad)
                                 .padding()
                                 .background(Color(.secondarySystemBackground))
@@ -95,22 +83,22 @@ struct PetQuestionnaireView: View {
                                 .font(.title2)
                                 .bold()
                             
-                            Toggle(isOn: $isFurnitureAllowed) {
+                            Toggle(isOn: $viewModel.isFurnitureAllowed) {
                                 Text("Is furniture allowed?")
                             }
                             .padding(.vertical)
                             
-                            Toggle(isOn: $isPottyTrained) {
+                            Toggle(isOn: $viewModel.isPottyTrained) {
                                 Text("Is the pet potty trained?")
                             }
                             .padding(.vertical)
                             
-                            Toggle(isOn: $isVaccinated) {
+                            Toggle(isOn: $viewModel.isVaccinated) {
                                 Text("Is the pet vaccinated?")
                             }
                             .padding(.vertical)
                             
-                            Toggle(isOn: $isSpayedNeutered) {
+                            Toggle(isOn: $viewModel.isSpayedNeutered) {
                                 Text("Is the pet spayed/neutered?")
                             }
                             .padding(.vertical)
@@ -123,7 +111,7 @@ struct PetQuestionnaireView: View {
                                 .font(.title2)
                                 .bold()
                             
-                            TextField("Activities your pet enjoys", text: $activities)
+                            TextField("Activities your pet enjoys", text: $viewModel.activities)
                                 .padding()
                                 .background(Color(.secondarySystemBackground))
                                 .cornerRadius(8)
@@ -136,7 +124,7 @@ struct PetQuestionnaireView: View {
                                 .font(.title2)
                                 .bold()
                             
-                            Picker("Gender of Pet", selection: $gender) {
+                            Picker("Gender of Pet", selection: $viewModel.gender) {
                                 ForEach(genders, id: \.self) {
                                     Text($0)
                                 }
@@ -149,8 +137,19 @@ struct PetQuestionnaireView: View {
                 }
                 .background(Color(.systemGroupedBackground))
                 
+                // Validation Error Message
+                if !viewModel.errorMessage.isEmpty {
+                    Text(viewModel.errorMessage)
+                        .foregroundColor(.red)
+                        .padding(.bottom)
+                }
+                
                 // Continue Button
-                NavigationLink(destination: WelcomeView()) {
+                Button(action: {
+                    if viewModel.validate() {
+                        // Proceed to the next view
+                    }
+                }) {
                     Text("Continue")
                         .font(.headline)
                         .fontWeight(.bold)
