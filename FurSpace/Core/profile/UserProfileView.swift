@@ -71,5 +71,5 @@ struct UserProfileView: View {
 }
 
 #Preview {
-    UserProfileView(user: User.MOCK_USER[3])
+    UserProfileView(user: User.MOCK_USER[1])
 }

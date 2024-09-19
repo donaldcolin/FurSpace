@@ -8,32 +8,33 @@ struct Dogprofile: View {
     @State private var showExtraInfo: Bool = false
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom){
+            
             // Fixed Background Image
-            Image(pest.petimageurl ?? "placeholder") // Use `pest` instead of `pets`
+            Image(pest.petimageurl ?? "vet") // Use `pest` instead of `pets`
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .edgesIgnoringSafeArea(.all) // Fill the entire background
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
-            // Gradient Overlay at the bottom
-            LinearGradient(
-                gradient: Gradient(colors: [Color.black.opacity(0.7), Color.black.opacity(0.3), Color.clear]),
-                startPoint: .bottom,
-                endPoint: .top
-            )
-            .edgesIgnoringSafeArea(.all) // Apply the gradient over the entire screen
-            
+                .scaledToFill()
+                .frame(width: cardWidth, height: cardHeight)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
             // Foreground Content
             VStack {
                 BasicDogInfoView(pets: pest) // Pass the single `pest` instance, not `mockPets`
                     .padding()
+                
             }
         }
     }
 }
 
-
+private extension Dogprofile {
+    var cardWidth: CGFloat {
+        UIScreen.main.bounds.width - 20
+    }
+    
+    var cardHeight: CGFloat {
+        UIScreen.main.bounds.height / 1.30
+    }
+}
 
 #Preview {
     Dogprofile(pest: mockPets[1])

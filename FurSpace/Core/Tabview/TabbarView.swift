@@ -18,7 +18,6 @@ struct TabbarView: View {
                     Image(systemName: "house")
                   
                 }
-            
             // Provide the @State annotations and array of users to the Mapview
             LocationSearchView(users: User.MOCK_USER)
                 .tabItem {

@@ -9,7 +9,7 @@ struct PostorRequestSelectionView: View {
                 // 2x2 Grid of Tiles
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
                     NavigationLink(destination: AddRequestView()) {
-                        CustomRowView(buttonTitle: "Add a Post", backgroundColor: .white,  backgroundImage: "doh") // Example background image
+                        CustomRowView(buttonTitle: "Add a Post", backgroundColor: .white,  backgroundImage: "dogpose") // Example background image
                     }
                     
                     NavigationLink(destination: AddRequestView()) {

@@ -13,7 +13,15 @@ struct profileHeaderView: View {
     let user: User
     var body: some View {
         VStack {
-            // Profile picture, followers, and post count
+            // Username at the top
+            if let fullname = user.fullname {
+                Text(fullname)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .padding(.top, 20)
+            }
+            
+            // Profile picture and friends count
             HStack(spacing: 20) {
                 Image(user.profileimageurl ?? "placeholder")
                     .resizable()
@@ -25,62 +33,29 @@ struct profileHeaderView: View {
                 Spacer()
                 
                 VStack {
-                    Text("Posts")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                    Text("120") // Example post count
-                        .font(.title2)
-                }
-                VStack {
-                    Text("Followers")
+                    Text("Friends")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                     Text("\(user.followers)")
                         .font(.title2)
                 }
-                VStack {
-                    Text("Following")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                    Text("\(user.following)")
-                        .font(.title2)
-                }
             }
             .padding(.horizontal)
 
-            // Full name and bio
+            // Bio
             VStack(alignment: .leading, spacing: 4) {
-                if let fullname = user.fullname {
-                    Text(fullname)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                                                }
                 if let bio = user.bio {
                     Text(bio)
                         .font(.body)
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
-                                   
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
             
-            
-            // Edit Profile and Friends Button
+            // Add Friend Button
             HStack(spacing: 16) {
-                Button {
-                    // Edit profile action
-                } label: {
-                    Text("Edit Profile")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity, maxHeight: 36)
-                        .foregroundColor(.black)
-                        .background(Color.white)
-                        .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.gray, lineWidth: 1))
-                }
-                
                 Button {
                     // Add Friends action
                 } label: {
@@ -99,7 +74,6 @@ struct profileHeaderView: View {
             Divider()
                 .padding(.top, 16)
         }
-        .padding(.top, 20)
     }
 }
 
