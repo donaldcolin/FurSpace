@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct UserDetailsView: View {
-    @State private var name: String = ""
     @State private var location: String = ""
-    @State private var email: String = ""
+    @State private var username : String = ""
     @State private var bio: String = ""
     @State private var profileImage: Image? = nil
     @State private var isImagePickerPresented: Bool = false
+    @EnvironmentObject var viewmodel: RegisterViewModel
     
     var body: some View {
         NavigationView {
@@ -50,12 +50,12 @@ struct UserDetailsView: View {
                 }
                 
                 // Name TextField
-                Text("Your name is **Donald colin**")
+                Text("Your name is **\(viewmodel.name)**")
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
                     .padding(.horizontal)
-                Text("Your email is Dcolin207@gmail.com")
+                Text("Your email is \(viewmodel.email)")
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
@@ -70,7 +70,7 @@ struct UserDetailsView: View {
                     .padding(.horizontal)
                 
                 // Email TextField
-                TextField("Enter your username", text: $email)
+                TextField("Enter your username", text: $username)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
@@ -88,9 +88,7 @@ struct UserDetailsView: View {
                 Spacer()
                 
                 // Save Button
-                Button(action: {
-                    // Handle save action
-                }) {
+                NavigationLink(destination: PetQuestionnaireView()) {
                     Text("Save")
                         .font(.headline)
                         .fontWeight(.bold)
