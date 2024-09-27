@@ -19,7 +19,7 @@ struct TabbarView: View {
                   
                 }
             // Provide the @State annotations and array of users to the Mapview
-            LocationSearchView(users: User.MOCK_USER)
+            SwiftUiMap()
                 .tabItem {
                     Image(systemName: "map")
                   
