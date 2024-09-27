@@ -9,12 +9,14 @@ struct CustomButtonLocation: View {
     var body: some View {
         HStack {
             if let coordinate = locationManager.coordinate {
-                // Show the latitude and longitude if available
-                Text("please aloow your loaction ")
+                // Display the current coordinates
+                Text("Lat: \(coordinate.latitude), Lon: \(coordinate.longitude)")
                     .padding()
                 
                 // Pass coordinates to viewModel when available
-                //viewModel.coordinate = coordinate
+                Button("Use Location") {
+                    viewModel.coordinate = coordinate
+                }
             } else {
                 Text("Location Unavailable") // Placeholder text when location is not fetched yet
                     .padding()

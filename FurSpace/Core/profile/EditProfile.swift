@@ -76,7 +76,7 @@ struct EditProfile: View {
     
     func logout() {
         // Implement logout functionality here
-        AuthService.shared.logOut()
+        AuthService.shared.LogOut()
     }
 }
 
