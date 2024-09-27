@@ -1,25 +1,22 @@
-//
-//  CustomButtonLocation.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 27/09/24.
-//
-
-
 import SwiftUI
 import CoreLocationUI
 
 struct CustomButtonLocation: View {
-    // Declare @StateObject here at the struct level
+    // Declare @StateObject for the location manager
     @StateObject var locationManager = LocationManage()
+    @ObservedObject var viewModel: RegisterViewModel // Pass the RegisterViewModel
 
     var body: some View {
         HStack {
-            if let place = locationManager.place {
-                Text("\(place)") // Show the place if available
+            if let coordinate = locationManager.coordinate {
+                // Show the latitude and longitude if available
+                Text("please aloow your loaction ")
                     .padding()
+                
+                // Pass coordinates to viewModel when available
+                //viewModel.coordinate = coordinate
             } else {
-                Text("Location Unavailable") // Placeholder text
+                Text("Location Unavailable") // Placeholder text when location is not fetched yet
                     .padding()
             }
 
@@ -39,5 +36,5 @@ struct CustomButtonLocation: View {
 }
 
 #Preview {
-    CustomButtonLocation()
+    CustomButtonLocation(viewModel: RegisterViewModel())
 }

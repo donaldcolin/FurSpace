@@ -1,65 +1,75 @@
-//
-//  LocationManager.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 27/09/24.
-//
-
-
 import CoreLocation
-import UIKit
 import SwiftUI
 
 class LocationManage: NSObject, ObservableObject, CLLocationManagerDelegate {
-    let manager = CLLocationManager()
-    @Published var place: String?
+    private let manager = CLLocationManager()
+    
+    // Observable object properties
+    @Published var place: String? // For displaying a human-readable place
+    @Published var coordinate: CLLocationCoordinate2D? // For storing the actual coordinates
     
     override init() {
         super.init()
         manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
-    // Request permission to access location
+    // Request location authorization
     func requestLocationAuthorization() {
-        manager.requestWhenInUseAuthorization()
+        // Check the authorization status and ask for permission if needed
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            print("Location access denied or restricted.")
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.startUpdatingLocation() // Start getting location updates
+        @unknown default:
+            break
+        }
     }
     
-    // Request the current location
+    // Request current location
     func requestLocation() {
-        manager.requestLocation() // This method triggers the delegate method
+        manager.requestLocation()
     }
-
-    // Delegate method: Called when locations are updated
+    
+    // Delegate method for location updates
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        lookUpCurrentLocation { placemark in
-            self.place = placemark
-        }
-    }
-
-    // Reverse geocode location to get the place name
-    func lookUpCurrentLocation(completionHandler: @escaping (String?) -> Void) {
-        // Use the last reported location.
-        if let lastLocation = manager.location {
-            let geocoder = CLGeocoder()
+        if let location = locations.first {
+            // Save the coordinate to the published property
+            self.coordinate = location.coordinate
             
-            // Look up the location and pass it to the completion handler
-            geocoder.reverseGeocodeLocation(lastLocation, completionHandler: { (placemarks, error) in
-                if error == nil {
-                    let firstLocation = placemarks?[0].name
-                    completionHandler(firstLocation)
-                } else {
-                    // An error occurred during geocoding.
-                    completionHandler(nil)
-                }
-            })
-        } else {
-            // No location was available.
-            completionHandler(nil)
+            // Reverse geocode to get the place name
+            lookUpCurrentLocation(for: location) { placemark in
+                self.place = placemark
+            }
         }
     }
-
-    // Delegate method: Called when location updates fail
+    
+    // Reverse geocoding to get the place name
+    private func lookUpCurrentLocation(for location: CLLocation, completionHandler: @escaping (String?) -> Void) {
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let error = error {
+                print("Error during reverse geocoding: \(error.localizedDescription)")
+                completionHandler(nil)
+            } else if let placemark = placemarks?.first {
+                let place = placemark.locality ?? "Unknown place"
+                completionHandler(place)
+            } else {
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    // Delegate method for handling location errors
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error requesting location: \(error.localizedDescription)")
+        print("Failed to get user location: \(error.localizedDescription)")
+    }
+    
+    // Respond to changes in location authorization
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        requestLocationAuthorization() // Re-check permission status
     }
 }

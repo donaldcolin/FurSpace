@@ -22,7 +22,7 @@ class LoginViewModel: ObservableObject {
     @Published var testdfvgbhnj = ""
     @Published var test2 = ""
     func login() async throws {
-        try await AuthService.shared.Login(withEmail: email, password: password)
+        try await AuthService.shared.login(withEmail: email, password: password)
     }
 }
 //    func validate() -> Bool {
