@@ -69,6 +69,12 @@ struct UserDetailsView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
                     .padding(.horizontal)
+                TextField("reaction", text: $viewmodel.location)
+                        CustomButtonLocation()
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                    .padding(.horizontal)
                 
                 Spacer()
                 

@@ -52,6 +52,11 @@ class AuthService{
     }
 }
 
+func updateUserdetails(){
+    
+    
+}
+
 private func uploadUderData(uid : String, email: String, username : String,bio : String,fullname : String) async{
     let user = User(id: uid, username: username, profileimageurl: nil, email: email, fullname: fullname, bio: bio, coordinate: CLLocationCoordinate2D(), pets: [])
     guard let encodeuser = try? Firestore.Encoder().encode(user) else {return}
