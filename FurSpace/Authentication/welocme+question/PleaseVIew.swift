@@ -22,7 +22,7 @@ struct PleaseVIew: View {
                 Text("Greeting sfrom FurSpace")
                 Spacer()
                 
-                Text("Hello **\(viewmodel.name)** please spare us two minutues to enter your details")
+                Text("Hello **\(viewmodel.fullname)** please spare us two minutues to enter your details")
                 Spacer()
                 
                     NavigationLink(destination: UserDetailsView()) {

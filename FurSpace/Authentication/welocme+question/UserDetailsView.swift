@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct UserDetailsView: View {
-    @State private var location: String = ""
-    @State private var username : String = ""
-    @State private var bio: String = ""
-    @State private var profileImage: Image? = nil
     @State private var isImagePickerPresented: Bool = false
+    @State private var selectedUIImage: UIImage? = nil // Store selected image as UIImage
     @EnvironmentObject var viewmodel: RegisterViewModel
     
     var body: some View {
@@ -24,8 +21,9 @@ struct UserDetailsView: View {
                 
                 // Profile Image
                 VStack {
-                    if let profileImage = profileImage {
-                        profileImage
+                    if let selectedUIImage = selectedUIImage {
+                        // If an image is selected, show it
+                        Image(uiImage: selectedUIImage)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 100, height: 100)
@@ -33,6 +31,7 @@ struct UserDetailsView: View {
                             .overlay(Circle().stroke(Color.blue, lineWidth: 2))
                             .shadow(radius: 10)
                     } else {
+                        // If no image is selected, show the button
                         Button(action: {
                             isImagePickerPresented = true
                         }) {
@@ -46,40 +45,26 @@ struct UserDetailsView: View {
                 }
                 .padding(.bottom, 20)
                 .sheet(isPresented: $isImagePickerPresented) {
-                    ImagePicker(image: $profileImage)
+                    ImagePicker(image: $selectedUIImage) // Use UIImage picker
                 }
                 
                 // Name TextField
-                Text("Your name is **\(viewmodel.name)**")
+                Text("Your name is **\($viewmodel.fullname)**")
                     .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
+                
                 Text("Your email is \(viewmodel.email)")
                     .padding()
                     .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-
-                
-                // Location TextField
-                TextField("Enter your location", text: $location)
+                // Username TextField
+                TextField("Enter your username", text: $viewmodel.username)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
                     .padding(.horizontal)
-                
-                // Email TextField
-                TextField("Enter your username", text: $username)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    .keyboardType(.emailAddress)
                     .autocapitalization(.none)
                 
                 // Bio TextField
-                TextField("Write a bio about yourself and your furry friend", text: $bio)
+                TextField("Write a bio about yourself and your furry friend", text: $viewmodel.bio)
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
@@ -103,8 +88,4 @@ struct UserDetailsView: View {
             .navigationBarTitle("Profile Setup", displayMode: .inline)
         }
     }
-}
-
-#Preview {
-    UserDetailsView()
 }

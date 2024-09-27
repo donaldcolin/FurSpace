@@ -36,7 +36,7 @@ struct profileHeaderView: View {
                     Text("Friends")
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                    Text("\(user.followers)")
+                    Text("23")
                         .font(.title2)
                 }
             }

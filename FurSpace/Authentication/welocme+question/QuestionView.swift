@@ -19,31 +19,31 @@ struct PetQuestionnaireView: View {
                                     .bold()
                                 
                                 // Pet Image Picker
-                                VStack {
-                                    if let petImage = viewModel.petImage {
-                                        petImage
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                            .overlay(Circle().stroke(Color.blue, lineWidth: 2))
-                                            .shadow(radius: 10)
-                                    } else {
-                                        Button(action: {
-                                            isImagePickerPresented = true
-                                        }) {
-                                            Image(systemName: "pawprint")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 100, height: 100)
-                                                .foregroundColor(.blue)
-                                        }
-                                    }
-                                }
-                                .padding(.bottom, 20)
-                                .sheet(isPresented: $isImagePickerPresented) {
-                                    ImagePicker(image: $viewModel.petImage)
-                                }
+//                                VStack {
+//                                    if let petImage = viewModel.petImage {
+//                                        petImage
+//                                            .resizable()
+//                                            .scaledToFill()
+//                                            .frame(width: 100, height: 100)
+//                                            .clipShape(Circle())
+//                                            .overlay(Circle().stroke(Color.blue, lineWidth: 2))
+//                                            .shadow(radius: 10)
+//                                    } else {
+//                                        Button(action: {
+//                                            isImagePickerPresented = true
+//                                        }) {
+//                                            Image(systemName: "pawprint")
+//                                                .resizable()
+//                                                .scaledToFit()
+//                                                .frame(width: 100, height: 100)
+//                                                .foregroundColor(.blue)
+//                                        }
+//                                    }
+//                                }
+//                                .padding(.bottom, 20)
+//                                .sheet(isPresented: $isImagePickerPresented) {
+//                                    ImagePicker(image: $viewModel.petImage)
+//                                }
                                 
                                 Picker("What pet do you own?", selection: $viewModel.petType) {
                                     ForEach(petTypes, id: \.self) {

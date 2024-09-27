@@ -40,7 +40,7 @@ struct LocationSearchView: View {
         for user in users { // Loop through the array of users
             let annotation = MKPointAnnotation()
             annotation.coordinate = user.coordinate
-            annotation.title = "\(user.fullname ?? user.username) (\(user.userType))"
+            //annotation.title = "\(user.fullname ?? user.username) (\(user.userType))"
             annotations.append(annotation)
         }
     }

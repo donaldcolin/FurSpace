@@ -7,18 +7,21 @@
 
 import Foundation
 import Foundation
-
+import MapKit
 class RegisterViewModel: ObservableObject {
-    @Published var name = ""
+    @Published var fullname = ""
     @Published var email = ""
     @Published var password = ""
     @Published var confirmPassword = ""
     @Published var errorMessage = ""
-
-    init() {}
+    @Published var bio = ""
+    @Published var username = ""
+    @Published var profileImage: Data?
+    @Published var coordinate: CLLocationCoordinate2D?
+    init() {self.coordinate = CLLocationCoordinate2D()}
 
     func createUser() async throws{
-        try await AuthService.shared.createuser(email: email, password: password)
+        try await AuthService.shared.createuser(email: email, password: password, username: username, bio: bio,fullname: fullname)
         }
     }
 

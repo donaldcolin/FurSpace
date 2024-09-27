@@ -26,7 +26,7 @@ struct RegisterView: View {
                         .fontWeight(.bold)
                         .foregroundColor(Color.primary)
                     
-                    TextField("Your name", text: $viewmodel.name)
+                    TextField("Your name", text: $viewmodel.fullname)
                         .padding()
                         .background(Color(UIColor.systemGray6)) // Dynamic field background
                         .cornerRadius(10)
