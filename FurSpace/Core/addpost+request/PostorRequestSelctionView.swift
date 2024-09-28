@@ -8,15 +8,15 @@ struct PostorRequestSelectionView: View {
                 
                 // 2x2 Grid of Tiles
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                    NavigationLink(destination: AddRequestView()) {
+                    NavigationLink(destination: AddPostView()) {
                         CustomRowView(buttonTitle: "Add a Post", backgroundColor: .white,  backgroundImage: "dogpose") // Example background image
                     }
                     
-                    NavigationLink(destination: AddRequestView()) {
+                    NavigationLink(destination: AddrequestView()) {
                         CustomRowView(buttonTitle: "Add a Request for Dog Boarding", backgroundColor: .green, backgroundImage: "dogfam")
                     }
                     
-                    NavigationLink(destination: AddRequestView()) {
+                    NavigationLink(destination: AddrequestView()) {
                         CustomRowView(buttonTitle: "Add a Request for Dog Walking", backgroundColor: .blue, backgroundImage: "dogwalk")
                     }
                     

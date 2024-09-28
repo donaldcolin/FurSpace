@@ -55,10 +55,13 @@ struct EditProfile: View {
                     ProfileOptionRow(iconName: "creditcard", text: "Billing Details") {
                         // Billing details action
                     }
-                    ProfileOptionRow(iconName: "person.2.fill", text: "User Management") {
+                    ProfileOptionRow(iconName: "tick.fill", text: "Get verified") {
                         // User management action
                     }
-                    ProfileOptionRow(iconName: "info.circle.fill", text: "Information") {
+                    ProfileOptionRow(iconName: "pawprint.fill", text: "Register as a pet walker or a boarder") {
+                        // Information action
+                    }
+                    ProfileOptionRow(iconName: "stethoscope", text: "Register as a vet") {
                         // Information action
                     }
                     

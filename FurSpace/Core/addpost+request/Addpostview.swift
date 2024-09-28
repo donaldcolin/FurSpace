@@ -1,7 +1,7 @@
 import SwiftUI
 import PhotosUI
 
-struct AddRequestView: View {
+struct AddPostView: View {
     @State private var caption = ""
     @State private var location = ""
     @State private var showImagePicker = false
@@ -101,5 +101,5 @@ struct AddRequestView: View {
 }
 
 #Preview {
-    AddRequestView()
+    AddPostView()
 }
