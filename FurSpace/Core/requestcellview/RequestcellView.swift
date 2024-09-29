@@ -14,7 +14,7 @@ struct RequestCellView: View {
         VStack {
             HStack(alignment: .top) {
                 // Profile image and username
-                Image(request.user?.fullname ?? "defaultProfileImage")
+                Image(request.user?.profileimageurl ?? "defaultProfileImage")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 50, height: 50)

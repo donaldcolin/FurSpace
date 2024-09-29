@@ -8,7 +8,7 @@ struct FeedCellView: View {
         VStack(alignment: .leading, spacing: 12) {
             // User Info Section
             HStack {
-                Image(post.user?.fullname ?? "defaultProfileImage")
+                Image(post.user?.profileimageurl ?? "defaultProfileImage")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 50, height: 50)

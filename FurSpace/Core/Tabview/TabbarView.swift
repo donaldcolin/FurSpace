@@ -10,7 +10,7 @@ import MapKit
 
 struct TabbarView: View {
     @State private var annotations: [MKPointAnnotation] = []
-    
+    let user : User
     var body: some View {
         TabView {
             CustomTabView()
@@ -38,7 +38,7 @@ struct TabbarView: View {
             
            
             
-            UserProfileView(user: User.MOCK_USER[1])
+            UserProfileView(user: user)
                 .tabItem {
                     Image(systemName: "person")
                     
@@ -48,5 +48,5 @@ struct TabbarView: View {
 }
 
 #Preview {
-    TabbarView()
+    TabbarView(user: User.MOCK_USER[1])
 }

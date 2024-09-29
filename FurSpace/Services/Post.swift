@@ -31,8 +31,8 @@ struct Post: Identifiable, Hashable, Encodable {
 extension Post {
     static var MOCK_POSTS: [Post] = [
         .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "bitch, please", likes: 5, imageURL: "luffy", timestamp: "2 days ago", user: User.MOCK_USER[3]),
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "knock knock", likes: 5, imageURL: "post_11", timestamp: "10 hrs ago", user: User.MOCK_USER[0]),
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "gg, please", likes: 5, imageURL: "post_10", timestamp: "1 hr ago", user: User.MOCK_USER[1]),
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "knock knock", likes: 5, imageURL: "dogphoto", timestamp: "10 hrs ago", user: User.MOCK_USER[0]),
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "gg, please", likes: 5, imageURL: "dogpose", timestamp: "1 hr ago", user: User.MOCK_USER[1]),
         .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "slay, please", likes: 5, imageURL: "post_15", timestamp: "1096 hrs ago", user: User.MOCK_USER[2])
     ]
 }

@@ -122,7 +122,7 @@ extension User {
               
         .init(id: NSUUID().uuidString,
               username: "alfred",
-              profileimageurl: "doggy",
+              profileimageurl: "user_10",
               email: "marsh1@gmail.com",
               fullname: "bane",
               bio: "dark knight's sidekick",
@@ -133,7 +133,7 @@ extension User {
               
         .init(id: NSUUID().uuidString,
               username: "bruce",
-              profileimageurl: "user_30",
+              profileimageurl: "user_16",
               email: "bruce@gmail.com",
               fullname: "bruce wayne",
               bio: "dark knight rises",
