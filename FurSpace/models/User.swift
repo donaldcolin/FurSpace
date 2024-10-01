@@ -1,7 +1,8 @@
 import Foundation
 import SwiftUI
 import MapKit
-
+import Firebase
+import FirebaseAuth
 // MARK: - User Model
 struct User: Identifiable, Hashable, Codable, Equatable {
     let id: String
@@ -12,6 +13,13 @@ struct User: Identifiable, Hashable, Codable, Equatable {
     var bio: String?
     var coordinate: CLLocationCoordinate2D
     var pets: [Pets] // Reference to Pets model
+    
+    var IscurrentUser:Bool{
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else{ return false }
+        return currentUid == id
+    }
+    
 
     // Manual decoding for coordinate and pets
     enum CodingKeys: String, CodingKey {

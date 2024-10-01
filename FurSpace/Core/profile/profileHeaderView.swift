@@ -11,68 +11,88 @@ import SwiftUI
 
 struct profileHeaderView: View {
     let user: User
+    
     var body: some View {
-        VStack {
-            // Username at the top
-            if let fullname = user.fullname {
-                Text(fullname)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .padding(.top, 20)
-            }
+        VStack(spacing: 16) {
+            // Username above the profile picture
+//            if let username = user.username {
+//                Text("@\(username)")
+//                    .font(.title)
+//                    .fontWeight(.bold)
+//                    .foregroundColor(.primary)
+//                    .padding(.top, 20)
+//            }
             
-            // Profile picture and friends count
-            HStack(spacing: 20) {
-                Image(user.profileimageurl ?? "placeholder")
+            // Profile picture and name
+            VStack(spacing: 8) {
+                Image(user.profileimageurl ?? "placeHolders")
                     .resizable()
                     .scaledToFill()
                     .clipShape(Circle())
-                    .frame(width: 100, height: 100)
-                    .shadow(radius: 10)
+                    .frame(width: 120, height: 120)
+                    .shadow(color: .gray, radius: 10, x: 0, y: 4)
                 
-                Spacer()
-                
-                VStack {
-                    Text("Friends")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                    Text("23")
-                        .font(.title2)
+                if let fullname = user.fullname {
+                    Text(fullname)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
                 }
             }
-            .padding(.horizontal)
-
-            // Bio
-            VStack(alignment: .leading, spacing: 4) {
-                if let bio = user.bio {
-                    Text(bio)
-                        .font(.body)
-                        .foregroundColor(.gray)
-                        .multilineTextAlignment(.center)
-                }
+            
+            // Friends and Posts stats
+            HStack(spacing: 50) {
+                statView(title: "Friends", count: "23")
+                statView(title: "Posts", count: "42")
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
             
-            // Add Friend Button
-            HStack(spacing: 16) {
-                Button {
-                    // Add Friends action
-                } label: {
-                    Text("Add Friend")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity, maxHeight: 36)
-                        .foregroundColor(.white)
-                        .background(Color.blue)
-                        .cornerRadius(6)
-                }
+            // Bio
+            if let bio = user.bio {
+                Text(bio)
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+            }
+            
+            // Add Friend button
+            Button(action: {
+                // Add Friend action
+            }) {
+                Text("Add Friend")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(10)
+                    .shadow(color: .blue.opacity(0.3), radius: 5, x: 0, y: 3)
             }
             .padding(.horizontal)
-            .padding(.top, 12)
+            .padding(.top, 10)
             
             Divider()
                 .padding(.top, 16)
+        }
+        .background(
+            Color(.systemBackground)
+                .shadow(color: .gray.opacity(0.1), radius: 5, x: 0, y: 3)
+        )
+        .cornerRadius(20)
+        .padding(.horizontal)
+    }
+    
+    // Helper function for the stats (Friends, Posts)
+    private func statView(title: String, count: String) -> some View {
+        VStack {
+            Text(title)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            Text(count)
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(.primary)
         }
     }
 }

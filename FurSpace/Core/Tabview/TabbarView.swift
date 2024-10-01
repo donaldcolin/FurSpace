@@ -30,7 +30,7 @@ struct TabbarView: View {
                    
                 }
             
-            OwnServiceView()
+          SearchView()
                 .tabItem {
                     Image(systemName: "cart.fill")
                    

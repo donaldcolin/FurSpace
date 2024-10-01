@@ -19,12 +19,16 @@ class MapViewModel: ObservableObject {
         selectedUser = user
     }
     
-    // Filter users based on the search query
+    // Filter users based on the search query, searching both username and fullname
     var filteredUsers: [User] {
         if searchQuery.isEmpty {
             return users
         } else {
-            return users.filter { $0.username.lowercased().contains(searchQuery.lowercased()) }
+            return users.filter { user in
+                let usernameMatches = user.username.lowercased().contains(searchQuery.lowercased())
+                let fullNameMatches = user.fullname?.lowercased().contains(searchQuery.lowercased()) ?? false
+                return usernameMatches || fullNameMatches
+            }
         }
     }
     

@@ -39,7 +39,7 @@ class AuthService {
             print("Error: \(error.localizedDescription)")
         }
     }
-    
+    @MainActor
     func loadUserdata () async throws {
         self.userSession = Auth.auth().currentUser
         guard let currentUId = userSession?.uid else { return }
@@ -48,7 +48,7 @@ class AuthService {
         self.currentUser = try? snapshot.data(as: User.self)
         
     }
-    
+    @MainActor
     private func uploadUserData(uid: String, email: String, username: String, bio: String, fullname: String, coordinate: CLLocationCoordinate2D) async {
         let user = User(id: uid, username: username, profileimageurl: nil, email: email, fullname: fullname, bio: bio, coordinate: coordinate, pets: [])
         self.currentUser = user
@@ -61,5 +61,17 @@ class AuthService {
         self.userSession = nil
         self.currentUser = nil
     }
-    
+    func UpdateUserData(){
+        
+        
+    }
+    func UploadPetDATA()
+    {
+        
+    }
+    func LoadPetData()
+    {
+        
+    }
+ 
 }
