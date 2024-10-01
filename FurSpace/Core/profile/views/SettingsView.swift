@@ -1,6 +1,11 @@
 import SwiftUI
 
 struct SettingsView: View {
+    let user: User
+    
+    // State variable to control fullScreenCover presentation
+    @State private var isEditProfilePresented = false
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -35,7 +40,7 @@ struct SettingsView: View {
                 
                 // Edit Profile Button
                 Button(action: {
-                    // Edit profile action
+                    isEditProfilePresented = true
                 }) {
                     Text("Edit Profile")
                         .fontWeight(.semibold)
@@ -46,6 +51,9 @@ struct SettingsView: View {
                         .cornerRadius(10)
                 }
                 .padding(.horizontal, 40)
+                .fullScreenCover(isPresented: $isEditProfilePresented) {
+                    EditUserProfileView(user: user) // Present EditProfileView as full screen
+                }
                 
                 // Settings List
                 VStack(spacing: 15) {
@@ -55,7 +63,7 @@ struct SettingsView: View {
                     ProfileOptionRow(iconName: "creditcard", text: "Billing Details") {
                         // Billing details action
                     }
-                    ProfileOptionRow(iconName: "tick.fill", text: "Get verified") {
+                    ProfileOptionRow(iconName: "house.fill", text: "Get verified") {
                         // User management action
                     }
                     ProfileOptionRow(iconName: "pawprint.fill", text: "Register as a pet walker or a boarder") {
@@ -119,5 +127,5 @@ struct ProfileOptionRow: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(user: User.MOCK_USER[0])
 }

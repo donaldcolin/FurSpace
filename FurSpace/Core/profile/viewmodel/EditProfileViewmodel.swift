@@ -11,6 +11,7 @@ import PhotosUI
 import SwiftUI
 
 class EditProfileViewmodel: ObservableObject {
+    @Published var user : User
     @Published var selectedImage: PhotosPickerItem? {
         didSet {
             Task {
@@ -24,6 +25,10 @@ class EditProfileViewmodel: ObservableObject {
     @Published var username = ""
     @Published var bio = ""
    // @Published var fullname = ""
+    
+    init(user :User){
+        self.user = user
+    }
     
     
    // private var uiImage: UIImage?

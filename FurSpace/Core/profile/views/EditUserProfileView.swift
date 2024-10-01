@@ -2,8 +2,11 @@ import SwiftUI
 import PhotosUI
 
 struct EditUserProfileView: View {
-    @StateObject private var viewModel = EditProfileViewmodel()
+    @StateObject var viewModel : EditProfileViewmodel
+    init(user :User){
 
+        self._viewModel = StateObject(wrappedValue: EditProfileViewmodel(user: user))
+    }
     var body: some View {
         NavigationView {
             Form {
@@ -62,5 +65,5 @@ struct EditUserProfileView: View {
 }
 
 #Preview {
-    EditUserProfileView()
+    EditUserProfileView(user: User.MOCK_USER[0])
 }
