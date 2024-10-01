@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct EditProfile: View {
+struct SettingsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -119,5 +119,5 @@ struct ProfileOptionRow: View {
 }
 
 #Preview {
-    EditProfile()
+    SettingsView()
 }
