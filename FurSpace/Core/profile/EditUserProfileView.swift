@@ -1,13 +1,8 @@
 import SwiftUI
+import PhotosUI
 
 struct EditUserProfileView: View {
-    @State private var name: String = ""
-    @State private var username: String = ""
-    @State private var bio: String = ""
-    @State private var location: String = ""
-    @State private var profileImage: Image? = Image(systemName: "person.circle")
-    @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
+    @StateObject private var viewModel = EditProfileViewmodel()
 
     var body: some View {
         NavigationView {
@@ -15,19 +10,23 @@ struct EditUserProfileView: View {
                 // Profile Picture
                 Section {
                     VStack {
-                        profileImage?
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 100, height: 100)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.gray, lineWidth: 1))
-                            .onTapGesture {
-                                showingImagePicker = true
-                            }
+                        if let postImage = viewModel.postImage {
+                            postImage
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                        } else {
+                            Image(systemName: "person.circle")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                        }
 
-                        Button(action: {
-                            showingImagePicker = true
-                        }) {
+                        PhotosPicker(selection: $viewModel.selectedImage, matching: .images) {
                             Text("Change Profile Photo")
                         }
                     }
@@ -36,10 +35,9 @@ struct EditUserProfileView: View {
 
                 // Name, Username, Bio, Location fields
                 Section(header: Text("Personal Info")) {
-                    TextField("Name", text: $name)
-                    TextField("Username", text: $username)
-                    TextField("Bio", text: $bio)
-                    TextField("Location", text: $location)
+                    TextField("Full Name", text: $viewModel.fullname)
+                    TextField("Username", text: $viewModel.username)
+                    TextField("Bio", text: $viewModel.bio)
                 }
 
                 // Save Button
@@ -54,19 +52,12 @@ struct EditUserProfileView: View {
                 }
             }
             .navigationTitle("Edit Profile")
-            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-                ImagePicker(image: $inputImage)
-            }
         }
-    }
-
-    func loadImage() {
-        guard let inputImage = inputImage else { return }
-        profileImage = Image(uiImage: inputImage)
     }
 
     func saveProfile() {
         // Add logic to save the profile details
+        print("Profile saved with name: \(viewModel.fullname), username: \(viewModel.username), bio: \(viewModel.bio)")
     }
 }
 

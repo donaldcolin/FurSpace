@@ -22,7 +22,7 @@ class UploadPostViewModel: ObservableObject {
     @Published var postImage: Image?
     @Published var caption = ""
     
-    private var uiImage: UIImage?
+   // private var uiImage: UIImage?
     
     @MainActor
     func loadImage(fromItem item: PhotosPickerItem?) async {
@@ -30,7 +30,7 @@ class UploadPostViewModel: ObservableObject {
         
         guard let data = try? await item.loadTransferable(type: Data.self) else { return }
         guard let uiImage = UIImage(data: data) else { return }
-        self.uiImage = uiImage
+       // self.uiImage = uiImage
         self.postImage = Image(uiImage: uiImage)
     }
 }

@@ -60,7 +60,7 @@ struct UserProfileView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: EditProfile()) {
+                    NavigationLink(destination: SettingsView()) {
                         Image(systemName: "line.3.horizontal")
                             .foregroundColor(.black)
                     }
