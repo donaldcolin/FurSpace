@@ -24,14 +24,24 @@ class EditProfileViewmodel: ObservableObject {
     @Published var fullname = ""
     @Published var username = ""
     @Published var bio = ""
-   // @Published var fullname = ""
     
     init(user :User){
         self.user = user
+        
+        if let username = user.username{
+            self.username = username
+        }
+        if let bio = user.bio{
+            self.bio = bio
+        }
+        if let fullname = user.fullname{
+            self.fullname = fullname
+        }
+
     }
     
     
-   // private var uiImage: UIImage?
+    private var uiImage: UIImage?
     
     @MainActor
     func loadImage(fromItem item: PhotosPickerItem?) async {
@@ -39,7 +49,33 @@ class EditProfileViewmodel: ObservableObject {
         
         guard let data = try? await item.loadTransferable(type: Data.self) else { return }
         guard let uiImage = UIImage(data: data) else { return }
-       // self.uiImage = uiImage
+        self.uiImage = uiImage
         self.postImage = Image(uiImage: uiImage)
+    }
+    
+    func updateUserData() async throws{
+        var data = [String:Any]()
+        
+        
+        if let uiImage = uiImage{
+            let imageUrl = try await ImageUploader.uploadImage(image: uiImage)
+            data["profileimageurl"] = imageUrl
+        }
+        
+        // add image change
+        if !fullname.isEmpty && user.fullname != fullname{
+            data["fullname"] = fullname
+        }
+        if !bio.isEmpty && user.bio  != bio{
+            data["bio"] = bio
+        }
+        if !username.isEmpty && user.username != username{
+            data["username"] = username
+            
+        }
+        
+        if !data.isEmpty{
+            try await Firestore.firestore().collection("users").document(user.id).updateData(data)
+        }
     }
 }

@@ -3,6 +3,7 @@ import PhotosUI
 
 struct EditUserProfileView: View {
     @StateObject var viewModel : EditProfileViewmodel
+    @Environment(\.dismiss) var dismiss
     init(user :User){
 
         self._viewModel = StateObject(wrappedValue: EditProfileViewmodel(user: user))
@@ -21,12 +22,7 @@ struct EditUserProfileView: View {
                                 .clipShape(Circle())
                                 .overlay(Circle().stroke(Color.gray, lineWidth: 1))
                         } else {
-                            Image(systemName: "person.circle")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+                            CircularProfileImageView(user: viewModel.user, size: .large)
                         }
 
                         PhotosPicker(selection: $viewModel.selectedImage, matching: .images) {
@@ -46,8 +42,8 @@ struct EditUserProfileView: View {
                 // Save Button
                 Section {
                     Button(action: {
-                        // Handle saving logic here
-                        saveProfile()
+                        Task {try await viewModel.updateUserData()
+                            dismiss()}
                     }) {
                         Text("Save Changes")
                             .frame(maxWidth: .infinity, alignment: .center)
@@ -58,10 +54,7 @@ struct EditUserProfileView: View {
         }
     }
 
-    func saveProfile() {
-        // Add logic to save the profile details
-        print("Profile saved with name: \(viewModel.fullname), username: \(viewModel.username), bio: \(viewModel.bio)")
-    }
+    
 }
 
 #Preview {

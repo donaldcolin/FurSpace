@@ -94,7 +94,7 @@ struct SwiftUiMap: View {
                         .foregroundColor(.blue)
                     
                     VStack(alignment: .leading) {
-                        Text(user.fullname ?? user.username)
+                        Text((user.fullname ?? user.username) ?? "nmw")
                             .font(.headline)
                         Text(user.bio ?? "No bio available")
                             .font(.subheadline)

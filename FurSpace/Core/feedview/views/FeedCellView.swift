@@ -42,10 +42,10 @@ struct FeedCellView: View {
                 .padding(.horizontal)
             
             // Time Info
-            Text(post.timestamp, style: .relative)
-                .font(.footnote)
-                .foregroundColor(.gray)
-                .padding(.horizontal)
+//            Text(post.timestamp, style: .relative)
+//                .font(.footnote)
+//                .foregroundColor(.gray)
+//                .padding(.horizontal)
             
             // Post Image with Zoom Functionality
             ZStack {

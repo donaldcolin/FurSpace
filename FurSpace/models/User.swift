@@ -6,7 +6,7 @@ import FirebaseAuth
 // MARK: - User Model
 struct User: Identifiable, Hashable, Codable, Equatable {
     let id: String
-    var username: String
+    var username: String?
     var profileimageurl: String?
     let email: String
     var fullname: String?

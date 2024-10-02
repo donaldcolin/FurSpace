@@ -9,35 +9,20 @@
 
 import SwiftUI
 
-struct profileHeaderView: View {
+struct ProfileHeaderView: View {
     let user: User
     
     var body: some View {
         VStack(spacing: 16) {
-            // Username above the profile picture
-//            if let username = user.username {
-//                Text("@\(username)")
-//                    .font(.title)
-//                    .fontWeight(.bold)
-//                    .foregroundColor(.primary)
-//                    .padding(.top, 20)
-//            }
+            // Profile picture
+            CircularProfileImageView(user: user, size: .large)
             
-            // Profile picture and name
-            VStack(spacing: 8) {
-                Image(user.profileimageurl ?? "placeHolders")
-                    .resizable()
-                    .scaledToFill()
-                    .clipShape(Circle())
-                    .frame(width: 120, height: 120)
-                    .shadow(color: .gray, radius: 10, x: 0, y: 4)
-                
-                if let fullname = user.fullname {
-                    Text(fullname)
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                }
+            // Full name
+            if let fullname = user.fullname {
+                Text(fullname)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
             }
             
             // Friends and Posts stats
@@ -98,5 +83,5 @@ struct profileHeaderView: View {
 }
 
 #Preview {
-    profileHeaderView(user: User.MOCK_USER[0])
+    ProfileHeaderView(user: User.MOCK_USER[0])
 }

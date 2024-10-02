@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct PostorRequestSelectionView: View {
+    @State private var tabIndex: Int = 0
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
@@ -8,15 +9,16 @@ struct PostorRequestSelectionView: View {
                 
                 // 2x2 Grid of Tiles
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                    NavigationLink(destination: AddPostView()) {
-                        CustomRowView(buttonTitle: "Add a Post", backgroundColor: .white,  backgroundImage: "dogpose") // Example background image
-                    }
                     
-                    NavigationLink(destination: AddrequestView()) {
+                    NavigationLink(destination: UploadPostView(tabIndex: $tabIndex)) {
+                                    CustomRowView(buttonTitle: "Add a Post", backgroundColor: .white, backgroundImage: "dogpose")
+                                }
+                    
+                    NavigationLink(destination: AddRequestView()) {
                         CustomRowView(buttonTitle: "Add a Request for Dog Boarding", backgroundColor: .green, backgroundImage: "dogfam")
                     }
                     
-                    NavigationLink(destination: AddrequestView()) {
+                    NavigationLink(destination: AddRequestView()) {
                         CustomRowView(buttonTitle: "Add a Request for Dog Walking", backgroundColor: .blue, backgroundImage: "dogwalk")
                     }
                     

@@ -1,105 +1,74 @@
-import SwiftUI
 import PhotosUI
+import SwiftUI
 
-struct AddPostView: View {
-    @State private var caption = ""
-    @State private var location = ""
-    @State private var showImagePicker = false
-    @State private var selectedPhotoItem: PhotosPickerItem?
-    @State private var selectedImage: UIImage?
+struct UploadPostView: View {
+    @State private var imagePickerPresented = false
+    
+    @Binding var tabIndex: Int
+
+    @StateObject var viewModel = UploadPostViewModel()
 
     var body: some View {
-        VStack(spacing: 20) {
-            // Header with upload and cancel buttons
+        VStack {
+            // Action tool bar
             HStack {
-                Button(action: {
-                    showImagePicker = true
-                }) {
-                    Text("Upload")
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                }
-                
-                Spacer()
-                
-                Text("New Post")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                
-                Spacer()
-                
-                Button(action: {
-                    print("Cancel")
-                }) {
+                Button {
+                    clearPostDataAndReturnToFeed()
+                } label: {
                     Text("Cancel")
-                        .font(.headline)
-                        .foregroundColor(.red)
+                }
+
+                Spacer()
+
+                Text("New Post")
+                    .fontWeight(.semibold)
+
+                Spacer()
+
+                Button {
+                    Task {
+                        try await viewModel.uploadPost(caption: viewModel.caption)
+                        clearPostDataAndReturnToFeed()
+                    }
+                } label: {
+                    Text("Upload")
+                        .fontWeight(.semibold)
                 }
             }
             .padding(.horizontal)
-            
-            // Image and caption area
-            HStack(alignment: .top, spacing: 15) {
-                if let selectedImage = selectedImage {
-                    Image(uiImage: selectedImage)
+
+            // Post image and caption
+            HStack(spacing: 8) {
+                if let image = viewModel.postImage {
+                    image
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 150, height: 150) // Larger image preview
-                        .cornerRadius(10)
-                        .clipped()
-                } else {
-                    Image("placeholder") // Default placeholder image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 320, height: 300) // Larger placeholder size
-                        .cornerRadius(10)
+                        .frame(width: 100, height: 100)
                         .clipped()
                 }
-                
-                // Ensure height matches the image size
+                TextField("Enter your caption...", text: $viewModel.caption, axis: .vertical)
+             
             }
-            .padding(.horizontal)
-            
-            
-            // Select location field
-            VStack {
-                TextField("Enter your caption", text: $caption, axis: .vertical)
-                    .padding(10)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .frame(height: 150)
-                
-                TextField("Select location", text: $location)
-                    .padding(10)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .overlay(
-                        HStack {
-                            Spacer()
-                            Image(systemName: "mappin.and.ellipse")
-                                .foregroundColor(.gray)
-                                .padding(.trailing, 10)
-                        }
-                    )
-            }
-            .padding(.horizontal)
+            .padding()
 
             Spacer()
         }
-        .photosPicker(isPresented: $showImagePicker, selection: $selectedPhotoItem)
-        .onChange(of: selectedPhotoItem) { newItem in
-            if let newItem = newItem {
-                Task {
-                    if let imageData = try? await newItem.loadTransferable(type: Data.self),
-                       let uiImage = UIImage(data: imageData) {
-                        selectedImage = uiImage
-                    }
-                }
-            }
+        .onAppear {
+            imagePickerPresented.toggle()
         }
+        .photosPicker(isPresented: $imagePickerPresented, selection: $viewModel.selectedImage)
+    }
+    
+    func clearPostDataAndReturnToFeed() {
+        viewModel.caption = ""
+        viewModel.selectedImage = nil
+        viewModel.postImage = nil
+        tabIndex = 0
     }
 }
 
-#Preview {
-    AddPostView()
+struct UploadPostView_Previews: PreviewProvider {
+    static var previews: some View {
+        UploadPostView(tabIndex: .constant(0))
+    }
 }

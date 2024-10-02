@@ -27,7 +27,7 @@ struct UserProfileView: View {
                             .padding(.bottom, 1)
                     } else {
                         // Show User Profile when the toggle is off
-                        profileHeaderView(user: user)
+                        ProfileHeaderView(user: user)
                             .padding(.bottom, 1) // Add space between header and posts
                         
                         PostGridView(posts: posts)

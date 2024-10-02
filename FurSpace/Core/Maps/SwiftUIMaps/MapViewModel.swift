@@ -25,9 +25,9 @@ class MapViewModel: ObservableObject {
             return users
         } else {
             return users.filter { user in
-                let usernameMatches = user.username.lowercased().contains(searchQuery.lowercased())
+                let usernameMatches = user.username?.lowercased().contains(searchQuery.lowercased())
                 let fullNameMatches = user.fullname?.lowercased().contains(searchQuery.lowercased()) ?? false
-                return usernameMatches || fullNameMatches
+                return usernameMatches ?? false || fullNameMatches
             }
         }
     }
