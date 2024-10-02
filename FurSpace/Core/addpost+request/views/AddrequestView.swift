@@ -8,20 +8,21 @@
 import SwiftUI
 
 struct AddRequestView: View {
-    @State private var dateFrom = Date()
-    @State private var dateTo = Date()
-    @State private var caption = ""
+
+    @StateObject var viewModel = UploadRequestViewModel()
 
     var body: some View {
         VStack(spacing: 20) {
             // Header with title
-
+            Text("New Dog Walking Request")
+                .font(.title2)
+                .fontWeight(.bold)
 
             // Caption input
             VStack(alignment: .leading) {
                 Text("Caption:")
                     .font(.headline)
-                TextField("Enter a caption", text: $caption)
+                TextField("Enter a caption", text: $viewModel.caption)
                     .padding(10)
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
@@ -34,18 +35,18 @@ struct AddRequestView: View {
                     .font(.headline)
 
                 VStack(alignment: .leading, spacing: 15) {
-                    HStack {
+                    VStack(alignment: .leading) {
                         Text("From:")
                             .font(.subheadline)
-                        DatePicker("", selection: $dateFrom, in: Date()..., displayedComponents: [.date])
+                        DatePicker("", selection: $viewModel.dateFrom, in: Date()..., displayedComponents: [.date])
                             .labelsHidden()
                             .datePickerStyle(.compact)
                     }
 
-                    HStack {
+                    VStack(alignment: .leading) {
                         Text("To:")
                             .font(.subheadline)
-                        DatePicker("", selection: $dateTo, in: dateFrom..., displayedComponents: [.date])
+                        DatePicker("", selection: $viewModel.dateTo, in: viewModel.dateFrom..., displayedComponents: [.date])
                             .labelsHidden()
                             .datePickerStyle(.compact)
                     }
@@ -58,7 +59,14 @@ struct AddRequestView: View {
             // Submit button
             Button(action: {
                 // Action to submit the request
-                print("Request Submitted: From \(dateFrom) to \(dateTo), Caption: \(caption)")
+                Task {
+                    do {
+                        try await viewModel.uploadRequest(caption: viewModel.caption)
+                        print("Request uploaded successfully.")
+                    } catch {
+                        print("Failed to upload request: \(error)")
+                    }
+                }
             }) {
                 Text("Submit Request")
                     .fontWeight(.semibold)

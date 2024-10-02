@@ -1,7 +1,7 @@
 import Foundation
 import Firebase
 
-struct Post: Identifiable, Hashable, Encodable {
+struct Post: Identifiable, Hashable, Codable {
     let id: String
     let ownerUID: String
     let caption: String

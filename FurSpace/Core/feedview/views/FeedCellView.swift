@@ -1,5 +1,5 @@
 import SwiftUI
-
+import Kingfisher
 struct FeedCellView: View {
     let post: Post
     @State private var isZoomed: Bool = false // State to manage zoom mode
@@ -8,12 +8,9 @@ struct FeedCellView: View {
         VStack(alignment: .leading, spacing: 12) {
             // User Info Section
             HStack {
-                Image(post.user?.profileimageurl ?? "defaultProfileImage")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .padding(.trailing, 8)
+                if let user = post.user{
+                    CircularProfileImageView(user: user, size: .small)
+                }
                 
                 VStack(alignment: .leading) {
                     Text(post.user?.username ?? "Unknown User")
@@ -49,7 +46,7 @@ struct FeedCellView: View {
             
             // Post Image with Zoom Functionality
             ZStack {
-                Image(post.imageURL)
+                KFImage(URL(string: post.imageURL))
                     .resizable()
                     .scaledToFit()
                     .frame(height: isZoomed ? nil : 400) // Adjust frame for zoom
@@ -63,7 +60,7 @@ struct FeedCellView: View {
                         ZStack(alignment: .topTrailing) {
                             Color.black.edgesIgnoringSafeArea(.all)
                             
-                            Image(post.imageURL)
+                            KFImage(URL(string: post.imageURL))
                                 .resizable()
                                 .scaledToFit()
                                 .onTapGesture {

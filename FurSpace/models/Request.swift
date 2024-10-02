@@ -1,58 +1,34 @@
-//
-//  Request.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 17/09/24.
-//
-
-//
-//  Request.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 17/09/24.
-//
-
 import Foundation
+import Firebase
 
-struct Request: Identifiable, Hashable, Encodable {
+struct Request: Identifiable, Hashable, Codable {
     let id: String
     let ownerUID: String
     let caption: String
     let likes: Int
-    let timestamp: Date
+    let timestamp: Timestamp
     let datefrom: Date
     let dateTo: Date
     var user: User?
     
-    // Custom initializer to convert timestamp from String (if necessary)
-    init(id: String, ownerUID: String, caption: String, likes: Int, imageURL: String, timestamp: String, datefrom: Date, dateTo: Date, user: User?) {
-        self.id = id
-        self.ownerUID = ownerUID
-        self.caption = caption
-        self.likes = likes
-        // Assuming timestamp is passed in as a string and converted to Date for uniformity
-        self.timestamp = Request.convertTimestamp(from: timestamp)
-        self.datefrom = datefrom
-        self.dateTo = dateTo
-        self.user = user
-    }
-    
-    // Function to convert string timestamp to Date
-    static func convertTimestamp(from string: String) -> Date {
-        // Placeholder logic; implement as needed.
-        return Date()
-    }
+    // Custom initializer to handle Firebase Timestamp directly
+   
+
+    // Function to convert Firebase Timestamp to Date for use in the app
+//    static func convertTimestampToDate(_ timestamp: Timestamp) -> Date {
+//        return timestamp.dateValue()
+//    }
 }
 
 extension Request {
     static var MOCK_Request: [Request] = [
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "bitch, please", likes: 5, imageURL: "luffy", timestamp: "2 days ago", datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[3]),
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "knock knock", likes: 5, imageURL: "post_11", timestamp: "10 hrs ago", datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[0]),
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "gg, please", likes: 5, imageURL: "post_10", timestamp: "1 hr ago", datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[1]),
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "slay, please", likes: 5, imageURL: "post_15", timestamp: "1096 hrs ago", datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[2]),
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "new request", likes: 10, imageURL: "post_16", timestamp: "5 days ago", datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[0]),
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "another request", likes: 3, imageURL: "post_17", timestamp: "2 weeks ago", datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[1]),
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "yet another request", likes: 7, imageURL: "post_18", timestamp: "1 month ago", datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[2]),
-        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "final request", likes: 12, imageURL: "post_19", timestamp: "3 days ago", datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[3])
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "bitch, please", likes: 5, timestamp: Timestamp(date: Date()), datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[3]),
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "knock knock", likes: 5, timestamp: Timestamp(date: Date().addingTimeInterval(-36000)), datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[0]),
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "gg, please", likes: 5, timestamp: Timestamp(date: Date().addingTimeInterval(-3600)), datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[1]),
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "slay, please", likes: 5, timestamp: Timestamp(date: Date().addingTimeInterval(-360000)), datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[2]),
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "new request", likes: 10, timestamp: Timestamp(date: Date().addingTimeInterval(-432000)), datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[0]),
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "another request", likes: 3, timestamp: Timestamp(date: Date().addingTimeInterval(-1209600)), datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[1]),
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "yet another request", likes: 7, timestamp: Timestamp(date: Date().addingTimeInterval(-2592000)), datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[2]),
+        .init(id: UUID().uuidString, ownerUID: UUID().uuidString, caption: "final request", likes: 12, timestamp: Timestamp(date: Date().addingTimeInterval(-259200)), datefrom: Date(), dateTo: Date().addingTimeInterval(86400), user: User.MOCK_USER[3])
     ]
 }

@@ -14,12 +14,9 @@ struct RequestCellView: View {
         VStack {
             HStack(alignment: .top) {
                 // Profile image and username
-                Image(request.user?.profileimageurl ?? "defaultProfileImage")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-                    .padding(.trailing, 10)
+                if let user = request.user{
+                    CircularProfileImageView(user: user, size: .small)
+                }
                 
                 VStack(alignment: .leading, spacing: 8) {
                     // Name and Location
@@ -53,11 +50,11 @@ struct RequestCellView: View {
                     
                     // Time and Message Button
                     HStack {
-                        Text(request.timestamp, style: .relative)
-                            .font(.caption)
-                            .foregroundColor(.gray)
+//                        Text(request.timestamp, style: .relative)
+//                            .font(.caption)
+//                            .foregroundColor(.gray)
                         
-                        Spacer()
+                  
                         
                         Button(action: {
                             // Handle message action

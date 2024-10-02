@@ -8,8 +8,9 @@ struct CustomTabView: View {
         case requests
     }
     
+    @StateObject var viewmodel = FeedViewModel()
     // Assuming you have Post and Request models with mock data
-    let posts: [Post] = Post.MOCK_POSTS
+
     let requests: [Request] = Request.MOCK_Request
     
     var body: some View {
@@ -61,7 +62,7 @@ struct CustomTabView: View {
                 if selectedTab == .posts {
                     ScrollView {
                         VStack {
-                            ForEach(posts) { post in
+                            ForEach(viewmodel.posts) { post in
                                 FeedCellView(post: post)
                             }
                         }
@@ -69,7 +70,7 @@ struct CustomTabView: View {
                 } else {
                     ScrollView {
                         VStack {
-                            ForEach(requests) { request in
+                            ForEach(viewmodel.requests) { request in
                                 RequestCellView(request: request)
                             }
                         }
