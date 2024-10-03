@@ -5,6 +5,7 @@ struct SettingsView: View {
     
     // State variable to control fullScreenCover presentation
     @State private var isEditProfilePresented = false
+    @State private var isQuestionsPresented = false
     
     var body: some View {
         ScrollView {
@@ -23,7 +24,7 @@ struct SettingsView: View {
                 Button(action: {
                     isEditProfilePresented = true
                 }) {
-                    Text("Edit Profile")
+                    Text("Edit Profile your profile")
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .padding()
@@ -36,9 +37,24 @@ struct SettingsView: View {
                     EditUserProfileView(user: user) // Present EditProfileView as full screen
                 }
                 Button(action: {
+                    isQuestionsPresented = true
+                }) {
+                    Text("create pog profile")
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.yellow)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal, 40)
+                .fullScreenCover(isPresented: $isQuestionsPresented) {
+                    PetQuestionnaireView() // Present EditProfileView as full screen
+                }
+                Button(action: {
                     isEditProfilePresented = true
                 }) {
-                    Text("Edit Profile")
+                    Text("edit dog profile")
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .padding()

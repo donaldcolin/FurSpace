@@ -32,11 +32,7 @@ class ContentViewModel: ObservableObject {
             self?.currentUser = currentUser
         }
         .store(in: &cancellables)
-        
-        serivice.$currentpet.sink { [weak self] currentpet in
-            self?.currentpet = currentpet
-        }
-        .store(in: &cancellables)
+       
     }
 }
 

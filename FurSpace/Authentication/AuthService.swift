@@ -6,7 +6,6 @@ import FirebaseFirestore
 class AuthService {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
-    @Published var currentpet: Pets?
     
     static let shared = AuthService()
     
@@ -34,16 +33,7 @@ class AuthService {
         username: String,
         bio: String,
         fullname: String,
-        coordinate: CLLocationCoordinate2D,
-        petname: String,
-        age: Int,
-        breed: String,
-        gender: String,
-        type: String,
-        ispotty: Bool,
-        isfurniture: Bool,
-        isSpayedNeutered: Bool,
-        isVaccinated: Bool
+        coordinate: CLLocationCoordinate2D
     ) async throws {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
@@ -60,19 +50,7 @@ class AuthService {
             )
             
             // Upload pet data
-            try await uploadPetdata(
-                uid: result.user.uid,
-                ownerid: result.user.uid,
-                petname: petname,
-                age: age,
-                breed: breed,
-                gender: gender,
-                type: type,
-                ispotty: ispotty,
-                isfurniture: isfurniture,
-                isVaccinated: isVaccinated,
-                isspayed: isSpayedNeutered
-            )
+           
             
         } catch {
             print("Error: \(error.localizedDescription)")
@@ -107,34 +85,4 @@ class AuthService {
         self.currentUser = nil
     }
     
-    func uploadPetdata(
-        uid: String,
-        ownerid: String,
-        petname: String,
-        age: Int,
-        breed: String,
-        gender: String,
-        type: String,
-        ispotty: Bool,
-        isfurniture: Bool,
-        isVaccinated: Bool,
-        isspayed: Bool
-    ) async throws {
-        let postRef = Firestore.firestore().collection("pets").document()
-        let pets = Pets(
-            id: postRef.documentID,
-            ownerUID: uid,
-            petname: petname,
-            age: age,
-            breed: breed,
-            gender: gender,
-            type: type,
-            isPottyTrained: ispotty,
-            isSpayedNeutered: isspayed,
-            isFurnitureAllowed: isfurniture
-        )
-        self.currentpet = pets
-        guard let encodedPost = try? Firestore.Encoder().encode(pets) else { return }
-        try await postRef.setData(encodedPost)
     }
-}
