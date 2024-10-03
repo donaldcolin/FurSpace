@@ -19,7 +19,7 @@ struct ContentView: View {
                 LoginView()
                     .environmentObject(registration)
             } else if let currentUser = viewModel.currentUser {
-                TabbarView(user: currentUser)
+                TabbarView(user: currentUser, pets: mockPets[1])
             }
         }
         }

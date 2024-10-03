@@ -21,10 +21,15 @@ struct UserProfileView: View {
         NavigationStack {
             ZStack {
                 ScrollView {
-                    if showingDogProfile, let pet = user.pets.first {
-                        // Show Dog Profile when the toggle is on
-                        Dogprofile(pest: pet)
-                            .padding(.bottom, 1)
+                    if showingDogProfile {
+                        // Placeholder view for dog profile
+                        VStack {
+                            Text("Dog Profile")
+                                .font(.title)
+                                .padding()
+                            // Add other dog-related profile info here if needed
+                        }
+                        .padding(.bottom, 1)
                     } else {
                         // Show User Profile when the toggle is off
                         ProfileHeaderView(user: user)

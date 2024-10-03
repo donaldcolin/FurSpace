@@ -10,35 +10,31 @@ struct SettingsView: View {
         ScrollView {
             VStack(spacing: 20) {
                 
-                // Profile Image with Edit Icon
-                ZStack(alignment: .bottomTrailing) {
-                    Image("luffy") // Replace with the actual user image
-                        .resizable()
-                        .frame(width: 120, height: 120)
-                        .clipShape(Circle())
-                    
-                    // Edit Icon
-                    Circle()
-                        .fill(Color.yellow)
-                        .frame(width: 35, height: 35)
-                        .overlay(
-                            Image(systemName: "pencil")
-                                .foregroundColor(.black)
-                        )
-                }
+                CircularProfileImageView(user: user, size: .large)
                 
                 // Name and Email
                 VStack(spacing: 5) {
-                    Text("Donald Colin") // Replace with dynamic username
+                    Text(user.fullname ?? "unk") // Replace with dynamic username
                         .font(.title2)
                         .fontWeight(.bold)
-                    
-                    Text("Donaldcolin.com") // Replace with dynamic email
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
                 }
                 
                 // Edit Profile Button
+                Button(action: {
+                    isEditProfilePresented = true
+                }) {
+                    Text("Edit Profile")
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.yellow)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal, 40)
+                .fullScreenCover(isPresented: $isEditProfilePresented) {
+                    EditUserProfileView(user: user) // Present EditProfileView as full screen
+                }
                 Button(action: {
                     isEditProfilePresented = true
                 }) {

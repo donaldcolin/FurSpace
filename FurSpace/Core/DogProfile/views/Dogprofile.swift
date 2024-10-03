@@ -11,11 +11,8 @@ struct Dogprofile: View {
         ZStack(alignment: .bottom){
             
             // Fixed Background Image
-            Image(pest.petimageurl ?? "vet") // Use `pest` instead of `pets`
-                .resizable()
-                .scaledToFill()
-                .frame(width: cardWidth, height: cardHeight)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+            PetPhoto(pet: pest)
+            
             // Foreground Content
             VStack {
                 BasicDogInfoView(pets: pest) // Pass the single `pest` instance, not `mockPets`
@@ -26,15 +23,7 @@ struct Dogprofile: View {
     }
 }
 
-private extension Dogprofile {
-    var cardWidth: CGFloat {
-        UIScreen.main.bounds.width - 20
-    }
-    
-    var cardHeight: CGFloat {
-        UIScreen.main.bounds.height / 1.30
-    }
-}
+
 
 #Preview {
     Dogprofile(pest: mockPets[1])

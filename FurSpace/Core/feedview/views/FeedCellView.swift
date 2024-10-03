@@ -1,5 +1,6 @@
 import SwiftUI
 import Kingfisher
+
 struct FeedCellView: View {
     let post: Post
     @State private var isZoomed: Bool = false // State to manage zoom mode

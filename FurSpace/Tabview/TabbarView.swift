@@ -11,6 +11,7 @@ import MapKit
 struct TabbarView: View {
     @State private var annotations: [MKPointAnnotation] = []
     let user : User
+    let pets :Pets
     var body: some View {
         TabView {
             CustomTabView()
@@ -30,7 +31,7 @@ struct TabbarView: View {
                    
                 }
             
-          SearchView()
+            Dogprofile(pest: pets)
                 .tabItem {
                     Image(systemName: "cart.fill")
                    
@@ -48,5 +49,5 @@ struct TabbarView: View {
 }
 
 #Preview {
-    TabbarView(user: User.MOCK_USER[1])
+    TabbarView(user: User.MOCK_USER[1], pets:mockPets[1])
 }

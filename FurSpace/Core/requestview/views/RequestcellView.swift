@@ -27,7 +27,7 @@ struct RequestCellView: View {
                     Text(request.user?.fullname ?? "Unknown Location")
                         .font(.subheadline)
                         .foregroundColor(.gray)
-                    
+                    // add pets detail (dog or cat , breed , gender)
                     // Tags (Dog owner, Dog walker, Vet)
                     HStack(spacing: 8) {
                         TagView(text: "Dog owner", color: .blue)

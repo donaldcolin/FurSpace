@@ -3,6 +3,7 @@ import SwiftUI
 import MapKit
 import Firebase
 import FirebaseAuth
+
 // MARK: - User Model
 struct User: Identifiable, Hashable, Codable, Equatable {
     let id: String
@@ -12,20 +13,18 @@ struct User: Identifiable, Hashable, Codable, Equatable {
     var fullname: String?
     var bio: String?
     var coordinate: CLLocationCoordinate2D
-    var pets: [Pets] // Reference to Pets model
-    
-    var IscurrentUser:Bool{
-        
-        guard let currentUid = Auth.auth().currentUser?.uid else{ return false }
+
+    // Computed property to check if the current user is the logged-in user
+    var IscurrentUser: Bool {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return false }
         return currentUid == id
     }
     
-
-    // Manual decoding for coordinate and pets
+    // Manual decoding for coordinate
     enum CodingKeys: String, CodingKey {
-        case id, username, profileimageurl, email, fullname, bio, latitude, longitude, pets
+        case id, username, profileimageurl, email, fullname, bio, latitude, longitude
     }
-
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -39,11 +38,9 @@ struct User: Identifiable, Hashable, Codable, Equatable {
         let latitude = try container.decode(CLLocationDegrees.self, forKey: .latitude)
         let longitude = try container.decode(CLLocationDegrees.self, forKey: .longitude)
         coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        
-        pets = try container.decode([Pets].self, forKey: .pets) // Decode pets
     }
     
-    // Manual encoding for coordinate and pets
+    // Manual encoding for coordinate
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
@@ -55,37 +52,28 @@ struct User: Identifiable, Hashable, Codable, Equatable {
         try container.encode(bio, forKey: .bio)
         try container.encode(coordinate.latitude, forKey: .latitude)
         try container.encode(coordinate.longitude, forKey: .longitude)
-        
-        try container.encode(pets, forKey: .pets) // Encode pets
     }
     
     // Default initializer
-    init(id: String, username: String, profileimageurl: String?, email: String, fullname: String?, bio: String?, coordinate: CLLocationCoordinate2D, pets: [Pets]) {
+    init(id: String, username: String?, profileimageurl: String?, email: String, fullname: String?, bio: String?, coordinate: CLLocationCoordinate2D) {
         self.id = id
         self.username = username
         self.profileimageurl = profileimageurl
         self.email = email
         self.fullname = fullname
         self.bio = bio
-       
         self.coordinate = coordinate
-        
-        self.pets = pets
     }
-
-    // Manual Equatable conformance
+    
     static func == (lhs: User, rhs: User) -> Bool {
         return lhs.id == rhs.id &&
-               lhs.username == rhs.username &&
-               lhs.profileimageurl == rhs.profileimageurl &&
-               lhs.email == rhs.email &&
-               lhs.fullname == rhs.fullname &&
-               lhs.bio == rhs.bio &&
-        
-               lhs.coordinate.latitude == rhs.coordinate.latitude &&
-               lhs.coordinate.longitude == rhs.coordinate.longitude &&
-        
-               lhs.pets == rhs.pets
+        lhs.username == rhs.username &&
+        lhs.profileimageurl == rhs.profileimageurl &&
+        lhs.email == rhs.email &&
+        lhs.fullname == rhs.fullname &&
+        lhs.bio == rhs.bio &&
+        lhs.coordinate.latitude == rhs.coordinate.latitude &&
+        lhs.coordinate.longitude == rhs.coordinate.longitude
     }
 
     // Manual Hashable conformance
@@ -98,56 +86,47 @@ struct User: Identifiable, Hashable, Codable, Equatable {
         hasher.combine(bio)
         hasher.combine(coordinate.latitude)
         hasher.combine(coordinate.longitude)
-     
-        hasher.combine(pets)
     }
 }
 
 // Mock users data
 extension User {
     static var MOCK_USER: [User] = [
-        .init(id: NSUUID().uuidString,
-              username: "martha",
-              profileimageurl: "luffy",
-              email: "marsh@gmail.com",
-              fullname: "martha wayne",
-              bio: "dark knight's mom",
-              
-              coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
-             
-              pets: [mockPets[0]]), // Martha has one pet, Buddy
-              
-        .init(id: NSUUID().uuidString,
-              username: "dj",
-              profileimageurl: "doggy",
-              email: "marsh2@gmail.com",
-              fullname: "dwanye barvo",
-              bio: "i play for csk",
-          
-              coordinate: CLLocationCoordinate2D(latitude: 37.7849, longitude: -122.4094),
-         
-              pets: [mockPets[1]]), // DJ has one pet, Whiskers
-              
-        .init(id: NSUUID().uuidString,
-              username: "alfred",
-              profileimageurl: "user_10",
-              email: "marsh1@gmail.com",
-              fullname: "bane",
-              bio: "dark knight's sidekick",
-
-              coordinate: CLLocationCoordinate2D(latitude: 37.7949, longitude: -122.3994),
-     
-              pets: [mockPets[2]]), // Alfred has one pet, Max
-              
-        .init(id: NSUUID().uuidString,
-              username: "bruce",
-              profileimageurl: "user_16",
-              email: "bruce@gmail.com",
-              fullname: "bruce wayne",
-              bio: "dark knight rises",
-           
-              coordinate: CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060),
-        
-              pets: [mockPets[3]]) // Bruce has one pet, Coco
+        User(
+            id: UUID().uuidString,
+            username: "martha",
+            profileimageurl: "luffy",
+            email: "marsh@gmail.com",
+            fullname: "Martha Wayne",
+            bio: "Dark knight's mom",
+            coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
+        ),
+        User(
+            id: UUID().uuidString,
+            username: "dj",
+            profileimageurl: "doggy",
+            email: "marsh2@gmail.com",
+            fullname: "Dwayne Bravo",
+            bio: "I play for CSK",
+            coordinate: CLLocationCoordinate2D(latitude: 37.7849, longitude: -122.4094)
+        ),
+        User(
+            id: UUID().uuidString,
+            username: "alfred",
+            profileimageurl: "user_10",
+            email: "marsh1@gmail.com",
+            fullname: "Alfred Pennyworth",
+            bio: "Dark knight's sidekick",
+            coordinate: CLLocationCoordinate2D(latitude: 37.7949, longitude: -122.3994)
+        ),
+        User(
+            id: UUID().uuidString,
+            username: "bruce",
+            profileimageurl: "user_16",
+            email: "bruce@gmail.com",
+            fullname: "Bruce Wayne",
+            bio: "Dark knight rises",
+            coordinate: CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060)
+        )
     ]
 }

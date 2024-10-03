@@ -7,8 +7,9 @@
 import Foundation
 
 // MARK: - Pets Model
-struct Pets: Identifiable, Hashable, Decodable, Encodable, Equatable {
+struct Pets: Identifiable, Hashable,Codable, Equatable {
     let id: String
+    let ownerUID: String
     var petimageurl: String?
     var petname: String
     var activities: String?
@@ -19,12 +20,13 @@ struct Pets: Identifiable, Hashable, Decodable, Encodable, Equatable {
     var isPottyTrained: Bool
     var isSpayedNeutered: Bool?
     var isFurnitureAllowed: Bool
+    var user : User?
 }
 
 // Mock pets data
 let mockPets: [Pets] = [
     Pets(
-        id: UUID().uuidString,
+        id: UUID().uuidString, ownerUID: UUID().uuidString,
         petimageurl: "doggy",
         petname: "Buddy",
         activities: "Playing fetch, Running",
@@ -37,7 +39,7 @@ let mockPets: [Pets] = [
         isFurnitureAllowed: false
     ),
     Pets(
-        id: UUID().uuidString,
+        id: UUID().uuidString,ownerUID: UUID().uuidString,
         petimageurl: "doggy2",
         petname: "Whiskers",
         activities: "Chasing mice, Sleeping",
@@ -50,7 +52,7 @@ let mockPets: [Pets] = [
         isFurnitureAllowed: true
     ),
     Pets(
-        id: UUID().uuidString,
+        id: UUID().uuidString,ownerUID: UUID().uuidString,
         petimageurl: "dogfam",
         petname: "Max",
         activities: "Hiking, Swimming",
@@ -63,7 +65,7 @@ let mockPets: [Pets] = [
         isFurnitureAllowed: true
     ),
     Pets(
-        id: UUID().uuidString,
+        id: UUID().uuidString,ownerUID: UUID().uuidString,
         petimageurl: nil,
         petname: "Coco",
         activities: "Flying around the house, Mimicking sounds",

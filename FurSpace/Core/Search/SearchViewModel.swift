@@ -9,6 +9,7 @@ import Foundation
 
 class SearchViewModel: ObservableObject {
     @Published var users = [User]()
+    @Published var pets = [Pets]()
     
     init() {
         Task {
