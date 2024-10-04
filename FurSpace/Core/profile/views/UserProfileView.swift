@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserProfileView: View {
     let user: User
-
+    let pets :Pets
     // State variable to toggle between user and dog profile
     @State private var showingDogProfile: Bool = false
     
@@ -24,9 +24,7 @@ struct UserProfileView: View {
                     if showingDogProfile {
                         // Placeholder view for dog profile
                         VStack {
-                            Text("Dog Profile")
-                                .font(.title)
-                                .padding()
+                            Dogprofile(pest: pets)
                             // Add other dog-related profile info here if needed
                         }
                         .padding(.bottom, 1)
@@ -76,5 +74,5 @@ struct UserProfileView: View {
 }
 
 #Preview {
-    UserProfileView(user: User.MOCK_USER[1])
+    UserProfileView(user: User.MOCK_USER[1], pets: mockPets[0])
 }

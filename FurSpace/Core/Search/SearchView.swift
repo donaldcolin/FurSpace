@@ -31,9 +31,9 @@ struct SearchView: View {
             .padding(.top, 8)
             .searchable(text: $searchText, prompt: "Search...")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: User.self) { user in
-                UserProfileView(user: user)
-            }
+//            .navigationDestination(for: User.self) { user in
+//                UserProfileView(user: user)
+//            }
             .navigationTitle("Explore")
             
         }}}

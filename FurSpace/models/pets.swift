@@ -7,19 +7,19 @@
 import Foundation
 
 // MARK: - Pets Model
-struct Pets: Identifiable, Hashable,Codable, Equatable {
+struct Pets: Identifiable,Codable {
     let id: String
     let ownerUID: String
     var petimageurl: String?
-    var petname: String
+    var petname: String?
     var activities: String?
-    var age: Int
-    var breed: String
-    let gender: String
-    let type: String
-    var isPottyTrained: Bool
+    var age: Int?
+    var breed: String?
+    let gender: String?
+    let type: String?
+    var isPottyTrained: Bool?
     var isSpayedNeutered: Bool?
-    var isFurnitureAllowed: Bool
+    var isFurnitureAllowed: Bool?
     var user : User?
 }
 

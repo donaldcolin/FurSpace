@@ -10,18 +10,18 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var viewModel = ContentViewModel() // Initialize ContentViewModel
     @StateObject var registration = RegisterViewModel() // Initialize RegisterViewModel
-
+    
     var body: some View {
         Group {
             if viewModel.userSession == nil {
-                // Not logged in, show LoginView
+                // If the user is not logged in, show the LoginView
                 LoginView()
                     .environmentObject(registration)
-            } else if let currentUser = viewModel.currentUser{ /*let currentPet = viewModel.currentPet {*/
-                // If both user and pet data are available, show TabbarView
-                        TabbarView(user: currentUser, pets: mockPets[0])
+            } else if let currentUser = viewModel.currentUser, let currentPet = viewModel.currentPet {
+                // If both user and pet data are available, show the TabbarView
+                TabbarView(user: currentUser, pets: currentPet)
             } else {
-                // Show loading view while fetching data
+                // Show a loading indicator while fetching data
                 VStack {
                     ProgressView("Loading...")
                     Text("User Session: \(viewModel.userSession != nil ? "Available" : "Not Available")")
@@ -29,7 +29,7 @@ struct ContentView: View {
                     Text("Current Pet: \(viewModel.currentPet != nil ? "Loaded" : "Not Loaded")")
                 }
                 .onAppear {
-                    viewModel.setupSubscribers() // Ensure data fetching starts on view appear
+                    viewModel.setupSubscribers() // Ensure subscribers are set up on view appear
                 }
             }
         }

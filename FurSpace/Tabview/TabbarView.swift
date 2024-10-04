@@ -31,7 +31,7 @@ struct TabbarView: View {
                    
                 }
             
-            Dogprofile(pest: pets)
+            OwnServiceView()
                 .tabItem {
                     Image(systemName: "cart.fill")
                    
@@ -39,7 +39,7 @@ struct TabbarView: View {
             
            
             
-            UserProfileView(user: user)
+            UserProfileView(user: user, pets: pets)
                 .tabItem {
                     Image(systemName: "person")
                     

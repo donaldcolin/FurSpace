@@ -26,26 +26,34 @@ class ContentViewModel: ObservableObject {
     }
     
     func setupSubscribers() {
+        // Observe the user session and fetch the user/pet data when available
         service.$userSession
             .sink { [weak self] userSession in
                 self?.userSession = userSession
                 if let userId = userSession?.uid {
+                    // Fetch user and pet data once userSession is available
                     self?.fetchCurrentUser(userId: userId)
-                    self?.fetchCurrentPet(userId: userId) // Fetch current pet data
+                    self?.fetchCurrentPet(ownerUID: userId)
                 }
             }
             .store(in: &cancellables)
         
+        // Observe the current user object from the AuthService
         service.$currentUser
             .sink { [weak self] currentUser in
                 self?.currentUser = currentUser
             }
             .store(in: &cancellables)
+        
+        service.$currentPet
+            .sink { [weak self] currentPet in
+                self?.currentPet = currentPet
+            }
+            .store(in: &cancellables)
     }
     
     private func fetchCurrentUser(userId: String) {
-        // Fetch the current user from the database
-        // Assuming UserService has a method to fetch user by ID
+        // Fetch the current user from the database using the UserService
         Task {
             do {
                 self.currentUser = try await UserService.fetchUser(withuid: userId)
@@ -55,12 +63,15 @@ class ContentViewModel: ObservableObject {
         }
     }
     
-    private func fetchCurrentPet(userId: String) {
-        // Fetch the current pet data from the database
-        // Assuming PetService has a method to fetch pet by owner ID
+    private func fetchCurrentPet(ownerUID: String) {
+        // Fetch the current pet data from the database using the ownerUID
         Task {
             do {
-                self.currentPet = try await PetService.fetchPet(forOwnerId: userId)
+                if let pet = try await PetService.fetchPet(forOwnerId: ownerUID) {
+                    self.currentPet = pet
+                } else {
+                    print("No pet found for this owner.")
+                }
             } catch {
                 print("Error fetching pet: \(error.localizedDescription)")
             }

@@ -148,7 +148,7 @@ struct PetQuestionnaireView: View {
                         Button(action: {
                             Task {
                                 do {
-                                   // try await viewModel.uploadpets()
+                                   try await viewModel.uploadpets()
                                     isWelcomeViewPresented = true // Only set to true after successful upload
                                 } catch {
                                     print("Error uploading pet details")

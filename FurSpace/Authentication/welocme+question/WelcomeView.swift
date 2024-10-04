@@ -45,15 +45,8 @@ struct WelcomeView: View {
                             // Create user first
                             try await viewModel.createUser()
                             print("Uploaded USER DATA")
-
-                            // After user creation, upload pet data
-                            if let userId = viewModel.userSession?.uid { // Access userSession directly from viewModel
-                                // Set the owner ID in the petViewModel
-                                petViewModel.ownerId = userId // Assuming you have an ownerId property in PetQuestionViewModel
-                                try await petViewModel.uploadpets()
-                                print("Uploaded PET DATA")
                             }
-                        } catch {
+                    catch {
                             showErrorMessage = true
                             errorMessage = "Failed to complete registration: \(error.localizedDescription)"
                             print(errorMessage)

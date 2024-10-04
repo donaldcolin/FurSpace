@@ -99,7 +99,7 @@ struct SettingsView: View {
     
     func logout() {
         // Implement logout functionality here
-        AuthService.shared.LogOut()
+        AuthService.shared.logOut()
     }
 }
 

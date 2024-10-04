@@ -79,7 +79,7 @@ struct UserDetailsView: View {
                 Spacer()
                 
                 // Save Button
-                NavigationLink(destination: PetQuestionnaireView()) {
+                NavigationLink(destination:WelcomeView()) {
                     Text("Save")
                         .font(.headline)
                         .fontWeight(.bold)

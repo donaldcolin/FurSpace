@@ -12,21 +12,23 @@ struct PetPhoto: View {
     let pets: Pets
     
     var body: some View {
-        if let imageUrl = pets.petimageurl{
-            KFImage(URL(string: imageUrl))
+        if let imageUrl = pets.petimageurl, let url = URL(string: imageUrl) {
+            KFImage(url)
                 .resizable()
-                .placeholder({ _ in
-                    ProgressView()
-                })
+                .placeholder {
+                    ProgressView() // Show a loading indicator while the image is loading
+                }
                 .scaledToFill()
                 .frame(width: cardWidth, height: cardHeight)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(radius: 5) // Optional: Add shadow for better aesthetics
         } else {
-            Image("vet")
+            Image("vet") // Fallback image if no URL is provided
                 .resizable()
                 .scaledToFill()
                 .frame(width: cardWidth, height: cardHeight)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(radius: 5) // Optional: Add shadow for better aesthetics
         }
     }
     
@@ -42,6 +44,21 @@ struct PetPhoto: View {
 
 #Preview {
     // Provide a mock Pets object for the preview
+    let mockPet = Pets(
+        id: "1",
+        ownerUID: "owner1",
+        petimageurl: "", // Ensure this is a valid URL
+        petname: "Buddy",
+        activities: nil,
+        age: 3,
+        breed: "Golden Retriever",
+        gender: "Male",
+        type: "Dog",
+        isPottyTrained: true,
+        isSpayedNeutered: false,
+        isFurnitureAllowed: true,
+        user: nil
+    )
     
-    PetPhoto(pets: mockPets[1])
+    PetPhoto(pets: mockPet)
 }

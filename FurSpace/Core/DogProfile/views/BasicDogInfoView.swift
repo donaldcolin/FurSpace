@@ -55,12 +55,12 @@ struct BasicDogInfoView: View {
             }
             
             VStack(alignment: .leading, spacing: 5) {
-                Text(pets.petname)
+                Text(pets.petname ?? "")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                 
-                Text(pets.breed)
+                Text(pets.breed ?? "")
                     .font(.title2)
                     .foregroundColor(.white.opacity(0.8))
                 
