@@ -7,7 +7,8 @@ extension CLLocationCoordinate2D {
 
 struct SwiftUiMap: View {
     @StateObject var viewModel = MapViewModel()
-    @State private var showSearchBar = false
+    @State private var showSearchBar = false // Controls the visibility of the search bar
+    @State private var showSearchView = false // For full screen cover triggered by the bottom button
     
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D.defaultLocation,
@@ -40,7 +41,7 @@ struct SwiftUiMap: View {
                 }
             }
             .mapStyle(.standard) // Default map style
-            .mapControls{
+            .mapControls {
                 MapCompass()
                 MapUserLocationButton()
             }
@@ -49,35 +50,45 @@ struct SwiftUiMap: View {
             if let user = viewModel.selectedUser {
                 userDetailCard(user: user)
             }
-
-            // User location button
-//            VStack {
-//                Spacer()
-//                HStack {
-//                    Spacer()
-//                    Button(action: {
-//                        // Toggle user tracking mode to follow the user
-//                        userTrackingMode = userTrackingMode == .follow ? .none : .follow
-//                    }) {
-//                        Image(systemName: "location.circle.fill")
-//                            .resizable()
-//                            .frame(width: 40, height: 40)
-//                            .foregroundColor(.blue)
-//                            .background(Color.white)
-//                            .clipShape(Circle())
-//                            .shadow(radius: 5)
-//                    }
-//                    .padding()
-//                }
-//            }
+            
+            // Bottom button styled like a TextField to trigger the SearchView in full screen
+            VStack {
+                Spacer()
+                HStack {
+                    Button(action: {
+                        // Show the SearchView in full screen cover
+                        showSearchView = true
+                    }) {
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                            Text("Search for a user")
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
+                        .shadow(radius: 2)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding(.bottom, 30)
+            }
         }
         .safeAreaInset(edge: .top) {
+            // Custom search bar in the top area
             searchBar()
-               
                 .background(Color.white)
                 .cornerRadius(10)
                 .shadow(radius: 5)
-                .offset(x: showSearchBar ? 0 : -150)
+                .padding(.horizontal)
+
+                                .offset(x: showSearchBar ? 0 : -150)
+        }
+        .fullScreenCover(isPresented: $showSearchView) {
+            // Pass the showSearchView binding to allow dismissal from SearchView
+            SearchView(showSearchView: $showSearchView)
         }
     }
     
@@ -138,47 +149,47 @@ struct SwiftUiMap: View {
         }
     }
     
-    // Custom search bar view
+    // Custom search bar view (toggles visibility)
     private func searchBar() -> some View {
-            HStack {
-                if showSearchBar {
-                    // Show the TextField when tapped
-                    TextField("Search for a user", text: $viewModel.searchQuery)
-                        .padding(10)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                        .shadow(radius: 2)
-                        .transition(.move(edge: .trailing)) // Smooth transition
-                        .animation(.easeInOut, value: showSearchBar) // Animation when the search bar appears
-                    
-                    // Close button to hide the search bar
-                    Button(action: {
-                        withAnimation {
-                            showSearchBar = false
-                        }
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.gray)
+        HStack {
+            if showSearchBar {
+                // Show the TextField when tapped
+                TextField("Search for a user", text: $viewModel.searchQuery)
+                    .padding(10)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                    .shadow(radius: 2)
+                    .transition(.move(edge: .trailing)) // Smooth transition
+                    .animation(.easeInOut, value: showSearchBar) // Animation when the search bar appears
+                
+                // Close button to hide the search bar
+                Button(action: {
+                    withAnimation {
+                        showSearchBar = false
                     }
-                    .padding(.leading, 8)
-                    
-                } else {
-                    // Search icon when the search bar is not visible
-                    Button(action: {
-                        withAnimation {
-                            showSearchBar = true
-                        }
-                    }) {
-                        Image(systemName: "magnifyingglass.circle.fill")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.blue)
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
+                }
+                .padding(.leading, 8)
+                
+            } else {
+                // Search icon when the search bar is not visible
+                Button(action: {
+                    withAnimation {
+                        showSearchBar = true
                     }
+                }) {
+                    Image(systemName: "magnifyingglass.circle.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.blue)
                 }
             }
-            .padding(10)
         }
+        .padding(10)
     }
+}
 
 #Preview {
     SwiftUiMap()

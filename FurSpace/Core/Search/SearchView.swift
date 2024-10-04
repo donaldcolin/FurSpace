@@ -4,6 +4,9 @@ struct SearchView: View {
     @State private var searchText = ""
     @StateObject var viewModel = SearchViewModel()
     
+    // Binding to control dismissal of the fullscreen cover
+    @Binding var showSearchView: Bool
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -31,14 +34,32 @@ struct SearchView: View {
             .padding(.top, 8)
             .searchable(text: $searchText, prompt: "Search...")
             .navigationBarTitleDisplayMode(.inline)
-//            .navigationDestination(for: User.self) { user in
-//                UserProfileView(user: user)
-//            }
             .navigationTitle("Explore")
             
-        }}}
+            // Dismiss Button
+            VStack {
+                Spacer()
+                Button(action: {
+                    // Close the search view and return to the map view
+                    showSearchView = false
+                }) {
+                    Text("Close")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 30)
+            }
+        }
+    }
+}
+
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView()
+        SearchView(showSearchView: .constant(true))
     }
 }
