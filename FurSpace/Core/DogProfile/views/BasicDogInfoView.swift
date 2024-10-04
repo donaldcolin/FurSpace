@@ -23,10 +23,10 @@ struct BasicDogInfoView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                     
-                    Text("Type: \(pets.type)")
+                    Text("Type: \(String(describing: pets.type))")
                         .foregroundColor(.white)
                     
-                    Text("Age: \(pets.age)")
+                    Text("Age: \(String(describing: pets.age))")
                         .foregroundColor(.white)
                     
                     Text("Favorite Activity: \(String(describing: pets.activities))")
@@ -35,13 +35,13 @@ struct BasicDogInfoView: View {
                     Text("Owner: Donald Colin") // Adjust or replace with dynamic owner name
                         .foregroundColor(.white)
                     
-                    Text("Potty Trained: \(pets.isPottyTrained)")
+                    Text("Potty Trained: \(String(describing: pets.isPottyTrained))")
                         .foregroundColor(.white)
                     
-                    Text("Vaccinated: \(pets.age)")
+                    Text("Vaccinated: \(String(describing: pets.age))")
                         .foregroundColor(.white)
                     
-                    Text("Allowed on Furniture: \(pets.isFurnitureAllowed)")
+                    Text("Allowed on Furniture: \(String(describing: pets.isFurnitureAllowed))")
                         .foregroundColor(.white)
                     
                     // Add more details as needed
@@ -55,7 +55,7 @@ struct BasicDogInfoView: View {
             }
             
             VStack(alignment: .leading, spacing: 5) {
-                Text(pets.petname ?? "")
+                Text(pets.petname ?? "please upload Pet data")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.white)

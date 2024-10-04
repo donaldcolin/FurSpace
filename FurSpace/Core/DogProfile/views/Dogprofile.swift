@@ -1,12 +1,13 @@
 import SwiftUI
+
 import Kingfisher
 
 struct Dogprofile: View {
     let pest: Pets
-
-    // State variable to toggle extra info visibility
-    @State private var showExtraInfo: Bool = false
     
+    // State variables to handle the edit view
+    @State private var showEditPetView: Bool = false
+
     var body: some View {
         ZStack(alignment: .bottom) {
             // Use a valid URL or a placeholder image if petimageurl is nil
@@ -30,9 +31,32 @@ struct Dogprofile: View {
             
             // Foreground Content
             VStack {
-                BasicDogInfoView(pets: pest) // Pass the single `pest` instance
+                BasicDogInfoView(pets: pest)
                     .padding()
             }
+
+            // Edit button at the top right corner
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        // Show the EditPetView as a fullscreen cover
+                        showEditPetView = true
+                    } label: {
+                        Image(systemName: "pencil.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .padding(.trailing, 20)
+                            .padding(.top, 20)
+                            .foregroundColor(.blue)
+                    }
+                }
+                Spacer()
+            }
+        }
+        .fullScreenCover(isPresented: $showEditPetView) {
+            // Launch the edit pet view as fullscreen cover
+            EditPetView(pet: pest)
         }
     }
     
@@ -62,6 +86,5 @@ struct Dogprofile: View {
         isFurnitureAllowed: true,
         user: nil
     )
-    
     Dogprofile(pest: mockPet)
 }
