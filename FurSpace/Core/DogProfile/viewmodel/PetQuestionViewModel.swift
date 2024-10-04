@@ -4,22 +4,13 @@
 //
 //  Created by Donald Colin on 03/10/24.
 //
-
-
-//
-//  petQuestionViewmodel.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 03/10/24.
-//
-// PetQuestionViewModel.swift
-
 import Firebase
 import PhotosUI
 import SwiftUI
 import FirebaseAuth
 
 class PetQuestionViewModel: ObservableObject {
+    @Published var ownerId: String?
     @Published var selectedImage: PhotosPickerItem? {
         didSet {
             Task {
@@ -67,7 +58,7 @@ class PetQuestionViewModel: ObservableObject {
 
         do {
             // Upload the image and get the URL
-            guard let imageUrl = try await petoImageUploader.uploadImage(image: uiImage) else {
+            guard let imageUrl = try await PetImageUploader.uploadImage(image: uiImage) else {
                 print("Error: Image upload failed")
                 return
             }
@@ -99,20 +90,3 @@ class PetQuestionViewModel: ObservableObject {
     }
 }
 
-// ImageUploader.swift (add this file for uploading the image)
-import FirebaseStorage
-import UIKit
-
-struct petoImageUploader {
-    static func uploadImage(image: UIImage) async throws -> String? {
-        let storageRef = Storage.storage().reference().child("pet_images/\(UUID().uuidString).jpg")
-        guard let imageData = image.jpegData(compressionQuality: 0.75) else { return nil }
-        
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        
-        let uploadTask = try await storageRef.putDataAsync(imageData, metadata: metadata)
-        let downloadURL = try await storageRef.downloadURL().absoluteString
-        return downloadURL
-    }
-}

@@ -1,11 +1,3 @@
-//
-//  PetQuestionnaireView.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 03/10/24.
-//
-
-
 import SwiftUI
 import PhotosUI
 
@@ -13,6 +5,7 @@ struct PetQuestionnaireView: View {
     @StateObject private var viewModel = PetQuestionViewModel()
     @State private var isImagePickerPresented: Bool = false
     @State private var showErrorMessage: Bool = false
+    @State private var isWelcomeViewPresented: Bool = false // State for navigation
     let petTypes = ["Dog", "Cat", "Bird", "Others"]
     let genders = ["Male", "Female"]
 
@@ -155,8 +148,8 @@ struct PetQuestionnaireView: View {
                         Button(action: {
                             Task {
                                 do {
-                                    try await viewModel.uploadpets()
-                                    print("uploaded")
+                                   // try await viewModel.uploadpets()
+                                    isWelcomeViewPresented = true // Only set to true after successful upload
                                 } catch {
                                     print("Error uploading pet details")
                                     showErrorMessage = true
@@ -172,6 +165,13 @@ struct PetQuestionnaireView: View {
                                 .cornerRadius(10)
                         }
                         .padding(.bottom, 20)
+
+                        // Navigation to WelcomeView when upload is successful
+                        NavigationLink(
+                            destination: WelcomeView(), // Replace with your actual welcome view
+                            isActive: $isWelcomeViewPresented,
+                            label: { EmptyView() }
+                        )
                     }
                 }
             }

@@ -1,7 +1,8 @@
 import Foundation
 import MapKit
-
+import FirebaseAuth
 class RegisterViewModel: ObservableObject {
+    @Published var userSession: FirebaseAuth.User?
     @Published var fullname = ""
     @Published var email = ""
     @Published var password = ""

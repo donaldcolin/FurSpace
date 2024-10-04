@@ -9,10 +9,10 @@ import SwiftUI
 import Kingfisher
 
 struct PetPhoto: View {
-    let pet: Pets
+    let pets: Pets
     
     var body: some View {
-        if let imageUrl = pet.petimageurl {
+        if let imageUrl = pets.petimageurl{
             KFImage(URL(string: imageUrl))
                 .resizable()
                 .placeholder({ _ in
@@ -43,5 +43,5 @@ struct PetPhoto: View {
 #Preview {
     // Provide a mock Pets object for the preview
     
-    PetPhoto(pet: mockPets[1])
+    PetPhoto(pets: mockPets[1])
 }
