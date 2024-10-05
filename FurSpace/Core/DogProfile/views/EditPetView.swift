@@ -1,29 +1,23 @@
-//
-//  EditPetView.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 04/10/24.
-//
-
-
 import SwiftUI
 import PhotosUI
 
 struct EditPetView: View {
     @StateObject var viewModel: EditPetViewModel
     @Environment(\.dismiss) var dismiss
-    
+    let petTypes = ["Dog", "Cat", "Bird", "Others"]
+    let genders = ["Male", "Female"]
+
     init(pet: Pets) {
         self._viewModel = StateObject(wrappedValue: EditPetViewModel(pet: pet))
     }
-    
+
     var body: some View {
         NavigationView {
             Form {
                 // Pet Image Section
                 Section {
                     VStack {
-                        if let petImage = viewModel.petImage {
+                        if let petImage = viewModel.petimageurl {
                             petImage
                                 .resizable()
                                 .scaledToFit()
@@ -31,7 +25,7 @@ struct EditPetView: View {
                                 .clipShape(Circle())
                                 .overlay(Circle().stroke(Color.gray, lineWidth: 1))
                         } else {
-                            Text("") // Placeholder for pet image
+                            CircularPetImageView(pet: viewModel.pet, size: .medium)
                         }
 
                         PhotosPicker(selection: $viewModel.selectedImage, matching: .images) {
@@ -44,11 +38,30 @@ struct EditPetView: View {
                 // Pet Info Section
                 Section(header: Text("Pet Info")) {
                     TextField("Pet Name", text: $viewModel.petname)
-                    TextField("Type", text: $viewModel.type)
+
+                    // Picker for Pet Type
+                    Picker("Select Pet Type", selection: $viewModel.type) {
+                        ForEach(petTypes, id: \.self) { petType in
+                            Text(petType)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+
+                    if viewModel.type == "Others" {
+                        TextField("Specify the pet", text: $viewModel.type)
+                            .padding(.vertical)
+                    }
+
                     TextField("Breed", text: $viewModel.breed)
                     TextField("Age", value: $viewModel.age, format: .number)
-                    TextField("Activities", text: $viewModel.activities)
-                    TextField("Gender", text: $viewModel.gender)
+
+                    // Picker for Pet Gender
+                    Picker("Gender", selection: $viewModel.gender) {
+                        ForEach(genders, id: \.self) { gender in
+                            Text(gender)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
                 }
 
                 // Pet Preferences Section
@@ -81,5 +94,5 @@ struct EditPetView: View {
 }
 
 #Preview {
-    EditPetView(pet:mockPets[0])
+    EditPetView(pet: mockPets[0])
 }

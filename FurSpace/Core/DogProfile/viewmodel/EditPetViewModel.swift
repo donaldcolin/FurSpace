@@ -20,7 +20,7 @@ class EditPetViewModel: ObservableObject {
         }
     }
     
-    @Published var petImage: Image?
+    @Published var petimageurl: Image?
     @Published var petname = ""
     @Published var type = ""
     @Published var breed = ""
@@ -65,15 +65,15 @@ class EditPetViewModel: ObservableObject {
         guard let data = try? await item.loadTransferable(type: Data.self) else { return }
         guard let uiImage = UIImage(data: data) else { return }
         self.uiImage = uiImage
-        self.petImage = Image(uiImage: uiImage)
+        self.petimageurl = Image(uiImage: uiImage)
     }
 
     func updatePetData() async throws {
         var data = [String: Any]()
         
         if let uiImage = uiImage {
-            let imageUrl = try await ImageUploader.uploadImage(image: uiImage)
-            data["profileimageurl"] = imageUrl
+            let imageUrl = try await PetImageUploader.uploadImage(image: uiImage)
+            data["petimageurl"] = imageUrl
         }
         
         if !petname.isEmpty && pet.petname != petname {

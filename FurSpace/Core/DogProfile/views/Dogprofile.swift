@@ -1,37 +1,28 @@
 import SwiftUI
-
 import Kingfisher
 
 struct Dogprofile: View {
     let pest: Pets
+    let user : User
     
     // State variables to handle the edit view
     @State private var showEditPetView: Bool = false
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            // Use a valid URL or a placeholder image if petimageurl is nil
-            if let imageUrl = pest.petimageurl, let url = URL(string: imageUrl) {
-                KFImage(url)
-                    .resizable()
-                    .placeholder {
-                        ProgressView() // Show a loading indicator while the image is loading
-                    }
-                    .scaledToFill()
-                    .frame(width: cardWidth, height: cardHeight)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            } else {
-                // Fallback image if petimageurl is nil or invalid
-                Image("vet") // Ensure you have a "vet" image in your assets
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: cardWidth, height: cardHeight)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            }
+            // KFImage with valid URL or fallback to a placeholder
+            KFImage(URL(string: pest.petimageurl ?? "https://via.placeholder.com/300"))
+                .resizable()
+                .placeholder {
+                    ProgressView() // Show a loading indicator while the image is loading
+                }
+                .scaledToFill()
+                .frame(width: cardWidth, height: cardHeight)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
             
             // Foreground Content
             VStack {
-                BasicDogInfoView(pets: pest)
+                BasicDogInfoView(pets: pest, user: user)
                     .padding()
             }
 
@@ -86,5 +77,5 @@ struct Dogprofile: View {
         isFurnitureAllowed: true,
         user: nil
     )
-    Dogprofile(pest: mockPet)
+    Dogprofile(pest: mockPet, user: User.MOCK_USER[0])
 }

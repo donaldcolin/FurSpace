@@ -24,7 +24,7 @@ struct UserProfileView: View {
                     if showingDogProfile {
                         // Placeholder view for dog profile
                         VStack {
-                            Dogprofile(pest: pets)
+                            Dogprofile(pest: pets, user: user)
                             // Add other dog-related profile info here if needed
                         }
                         .padding(.bottom, 1)

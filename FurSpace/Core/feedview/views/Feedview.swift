@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CustomTabView: View {
     @State private var selectedTab: Tab = .posts
+
     
     enum Tab {
         case posts

@@ -1,14 +1,8 @@
-//
-//  BasicDogInfoView.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 14/09/24.
-//
-
 import SwiftUI
 
 struct BasicDogInfoView: View {
     let pets: Pets
+    let user: User
     @State private var showExtraInfo: Bool = false // State for toggling extra info
     
     var body: some View {
@@ -23,25 +17,25 @@ struct BasicDogInfoView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                     
-                    Text("Type: \(String(describing: pets.type))")
+                    Text("Type: \(pets.type ?? "Unknown")")
                         .foregroundColor(.white)
                     
-                    Text("Age: \(String(describing: pets.age))")
+                    Text("Age: \(pets.age != nil ? "\(pets.age!) years old" : "Unknown age")")
                         .foregroundColor(.white)
                     
-                    Text("Favorite Activity: \(String(describing: pets.activities))")
+                    Text("Favorite Activity: \(pets.activities ?? "None")")
                         .foregroundColor(.white)
                     
-                    Text("Owner: Donald Colin") // Adjust or replace with dynamic owner name
+                    Text("Owner: \(user.fullname ?? "owner name")") // Adjust or replace with dynamic owner name
                         .foregroundColor(.white)
                     
-                    Text("Potty Trained: \(String(describing: pets.isPottyTrained))")
+                    Text("Potty Trained: \(pets.isPottyTrained ?? false ? "Yes" : "No")")
                         .foregroundColor(.white)
                     
-                    Text("Vaccinated: \(String(describing: pets.age))")
+                    Text("Vaccinated: \(pets.isSpayedNeutered ?? false ? "Yes" : "No")") // Changed to spayed/neutered
                         .foregroundColor(.white)
                     
-                    Text("Allowed on Furniture: \(String(describing: pets.isFurnitureAllowed))")
+                    Text("Allowed on Furniture: \(pets.isFurnitureAllowed ?? false ? "Yes" : "No")")
                         .foregroundColor(.white)
                     
                     // Add more details as needed
@@ -55,12 +49,12 @@ struct BasicDogInfoView: View {
             }
             
             VStack(alignment: .leading, spacing: 5) {
-                Text(pets.petname ?? "please upload Pet data")
+                Text(pets.petname ?? "Please upload pet data")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                 
-                Text(pets.breed ?? "")
+                Text(pets.breed ?? "Unknown breed")
                     .font(.title2)
                     .foregroundColor(.white.opacity(0.8))
                 
@@ -88,5 +82,5 @@ struct BasicDogInfoView: View {
 }
 
 #Preview {
-    BasicDogInfoView(pets: mockPets[0])
+    BasicDogInfoView(pets: mockPets[0], user: User.MOCK_USER[1])
 }

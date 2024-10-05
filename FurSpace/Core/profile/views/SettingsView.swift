@@ -36,37 +36,7 @@ struct SettingsView: View {
                 .fullScreenCover(isPresented: $isEditProfilePresented) {
                     EditUserProfileView(user: user) // Present EditProfileView as full screen
                 }
-                Button(action: {
-                    isQuestionsPresented = true
-                }) {
-                    Text("create pog profile")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.yellow)
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal, 40)
-                .fullScreenCover(isPresented: $isQuestionsPresented) {
-                    PetQuestionnaireView() // Present EditProfileView as full screen
-                }
-                Button(action: {
-                    isEditProfilePresented = true
-                }) {
-                    Text("edit dog profile")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.yellow)
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal, 40)
-                .fullScreenCover(isPresented: $isEditProfilePresented) {
-                    EditUserProfileView(user: user) // Present EditProfileView as full screen
-                }
-                
+               
                 // Settings List
                 VStack(spacing: 15) {
                     ProfileOptionRow(iconName: "gearshape", text: "Settings") {

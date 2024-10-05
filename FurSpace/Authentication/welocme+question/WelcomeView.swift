@@ -3,7 +3,7 @@ import SwiftUI
 struct WelcomeView: View {
     @State private var isAgreedToTerms: Bool = false
     @EnvironmentObject var viewModel: RegisterViewModel // Make sure it's environmentObject
-    @StateObject private var petViewModel = PetQuestionViewModel()
+
     @State private var showErrorMessage: Bool = false
     @State private var errorMessage: String = ""
 

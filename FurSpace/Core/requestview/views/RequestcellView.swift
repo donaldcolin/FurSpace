@@ -14,7 +14,7 @@ struct RequestCellView: View {
         VStack {
             HStack(alignment: .top) {
                 // Profile image and username
-                if let user = request.user{
+                if let user = request.user {
                     CircularProfileImageView(user: user, size: .small)
                 }
                 
@@ -27,7 +27,22 @@ struct RequestCellView: View {
                     Text(request.user?.fullname ?? "Unknown Location")
                         .font(.subheadline)
                         .foregroundColor(.gray)
-                    // add pets detail (dog or cat , breed , gender)
+                    
+                    // Pet details (e.g., Dog, Breed, Gender)
+                    
+                    //                        HStack(spacing: 4) {
+                    //                            Text("\(pet.type ?? "Unknown type")")
+                    //                                .font(.subheadline)
+                    //                                .foregroundColor(.primary)
+                    //
+                    //                            Text("•")
+                    //
+                    //                            Text("\(pet.breed ?? "Unknown breed")")
+                    //                                .font(.subheadline)
+                    //                                .foregroundColor(.primary)
+                    //                        }
+                    //                    }
+                    
                     // Tags (Dog owner, Dog walker, Vet)
                     HStack(spacing: 8) {
                         TagView(text: "Dog owner", color: .blue)
@@ -50,12 +65,6 @@ struct RequestCellView: View {
                     
                     // Time and Message Button
                     HStack {
-//                        Text(request.timestamp, style: .relative)
-//                            .font(.caption)
-//                            .foregroundColor(.gray)
-                        
-                  
-                        
                         Button(action: {
                             // Handle message action
                         }) {
@@ -75,27 +84,57 @@ struct RequestCellView: View {
             }
             .padding()
             
+           
+            
+            
+            HStack(spacing: 20) {
+                Button {
+                    print("likes")
+                } label: {
+                    Image(systemName: "heart")
+                        .imageScale(.large)
+                }
+                
+                Button {
+                    print("comment")
+                } label: {
+                    Image(systemName: "bubble.right")
+                        .imageScale(.large)
+                }
+                
+                Button {
+                    print("share")
+                } label: {
+                    Image(systemName: "paperplane")
+                        .imageScale(.large)
+                }
+                
+                Spacer()
+            }
+            .padding(.horizontal)
+                .foregroundColor(.primary)
             Divider()
         }
-        .padding(.horizontal)
+        
     }
 }
-
-struct TagView: View {
-    var text: String
-    var color: Color
     
-    var body: some View {
-        Text(text)
-            .font(.caption)
-            .fontWeight(.semibold)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 4)
-            .background(color.opacity(0.2))
-            .foregroundColor(color)
-            .cornerRadius(20)
+    struct TagView: View {
+        var text: String
+        var color: Color
+        
+        var body: some View {
+            Text(text)
+                .font(.caption)
+                .fontWeight(.semibold)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 4)
+                .background(color.opacity(0.2))
+                .foregroundColor(color)
+                .cornerRadius(20)
+        }
     }
-}
+
 
 #Preview {
     RequestCellView(request: Request.MOCK_Request[0])
