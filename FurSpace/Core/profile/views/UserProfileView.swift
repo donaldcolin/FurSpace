@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct UserProfileView: View {
+    
     let user: User
     let pets :Pets
     // State variable to toggle between user and dog profile
@@ -33,7 +34,7 @@ struct UserProfileView: View {
                         ProfileHeaderView(user: user)
                             .padding(.bottom, 1) // Add space between header and posts
                         
-                        PostGridView(posts: posts)
+                        PostGridView(user:user)
                             .padding()
                     }
                 }

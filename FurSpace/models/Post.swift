@@ -5,11 +5,11 @@ struct Post: Identifiable, Hashable, Codable {
     let id: String
     let ownerUID: String
     let caption: String
-    let likes: Int
+    var likes: Int
     let imageURL: String
     let timestamp: Timestamp
     var user: User?
-
+    var liked: [String]?
 }
     extension Post {
         static var MOCK_POSTS: [Post] = [

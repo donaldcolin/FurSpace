@@ -23,15 +23,7 @@ class FeedViewModel: ObservableObject {
     
     @MainActor
     func fetchposts() async throws {
-        let snapshot = try await Firestore.firestore().collection("posts").getDocuments()
-        self.posts = try snapshot.documents.compactMap { try $0.data(as: Post.self) }
-        
-        for i in 0 ..< posts.count {
-            let post = posts[i]
-            let ownerUID = post.ownerUID
-            let postUser = try await UserService.fetchUser(withuid: ownerUID)
-            posts[i].user = postUser
-        }
+        self.posts = try await PostService.fetchFeedPosts()
     }
     
     @MainActor
@@ -46,4 +38,23 @@ class FeedViewModel: ObservableObject {
             requests[i].user = requestUser
         }
     }
-}
+    
+    @MainActor
+       func toggleLike(postId: String, uid: String) async throws {
+           try await PostService.toggleLike(postId: postId, uid: uid)
+           let likedPostIndex = posts.firstIndex { post in
+               post.id == postId
+           }
+
+           if let index = likedPostIndex {
+               if posts[index].liked!.contains(uid) {
+                   posts[index].likes -= 1
+                   posts[index].liked!.removeAll(where: { $0 == uid })
+               } else {
+                   posts[index].likes += 1
+                   posts[index].liked!.append(uid)
+               }
+           }
+       }
+   }
+

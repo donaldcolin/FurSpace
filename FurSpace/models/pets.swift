@@ -21,6 +21,7 @@ struct Pets: Identifiable,Codable {
     var isSpayedNeutered: Bool?
     var isFurnitureAllowed: Bool?
     var user : User?
+
 }
 
 // Mock pets data

@@ -3,7 +3,7 @@ import SwiftUI
 struct SearchView: View {
     @State private var searchText = ""
     @StateObject var viewModel = SearchViewModel()
-    
+
     // Binding to control dismissal of the fullscreen cover
     @Binding var showSearchView: Bool
     
@@ -16,7 +16,7 @@ struct SearchView: View {
                             HStack {
                                 CircularProfileImageView(user: user, size: .xSmall)
                                 VStack(alignment: .leading) {
-                                    Text(user.username ?? "c")
+                                    Text(user.username ?? "Unknown User")
                                         .fontWeight(.semibold)
                                     if let fullname = user.fullname {
                                         Text(fullname)
@@ -32,15 +32,19 @@ struct SearchView: View {
                 }
             }
             .padding(.top, 8)
-            .searchable(text: $searchText, prompt: "Search...")
+            .searchable(text: $searchText, prompt: "Search for users or pets...")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(for: User.self) { user in
+                if let pet = viewModel.pet(for: user) {
+                    UserProfileView(user: user, pets: pet)
+                }
+            }
             .navigationTitle("Explore")
             
             // Dismiss Button
             VStack {
                 Spacer()
                 Button(action: {
-                    // Close the search view and return to the map view
                     showSearchView = false
                 }) {
                     Text("Close")
@@ -55,11 +59,5 @@ struct SearchView: View {
                 .padding(.bottom, 30)
             }
         }
-    }
-}
-
-struct SearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchView(showSearchView: .constant(true))
     }
 }

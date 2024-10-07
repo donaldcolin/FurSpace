@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CustomTabView: View {
     @State private var selectedTab: Tab = .posts
-
     
     enum Tab {
         case posts
@@ -10,10 +9,8 @@ struct CustomTabView: View {
     }
     
     @StateObject var viewmodel = FeedViewModel()
-    // Assuming you have Post and Request models with mock data
+    let user: User
 
-    let requests: [Request] = Request.MOCK_Request
-    
     var body: some View {
         NavigationView {
             VStack {
@@ -64,7 +61,11 @@ struct CustomTabView: View {
                     ScrollView {
                         VStack {
                             ForEach(viewmodel.posts) { post in
-                                FeedCellView(post: post)
+                                FeedCellView(post: post, user: user) {
+                                    Task {
+                                        try await viewmodel.toggleLike(postId: post.id, uid: user.id)
+                                    }
+                                }
                             }
                         }
                     }
@@ -92,5 +93,5 @@ struct CustomTabView: View {
 }
 
 #Preview {
-    CustomTabView()
+    CustomTabView(user: User.MOCK_USER[0]) // Pass a mock user
 }

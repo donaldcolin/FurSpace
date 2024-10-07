@@ -14,7 +14,7 @@ struct TabbarView: View {
     let pets :Pets
     var body: some View {
         TabView {
-            CustomTabView()
+            CustomTabView(user: user)
                 .tabItem {
                     Image(systemName: "house")
                   

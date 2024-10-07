@@ -1,10 +1,3 @@
-//
-//  SearchViewModel.swift
-//  FurSpace
-//
-//  Created by Donald Colin on 30/09/24.
-//
-
 import Foundation
 
 class SearchViewModel: ObservableObject {
@@ -13,24 +6,22 @@ class SearchViewModel: ObservableObject {
     
     init() {
         Task {
-            try await fetchAllUsers()
+            try await fetchAllUsersAndPets()
         }
     }
     
     @MainActor
-    func fetchAllUsers() async throws {
-        self.users = try await UserService.fetchAllUsers()
+    func fetchAllUsersAndPets() async throws {
+        async let fetchedUsers = UserService.fetchAllUsers()
+        async let fetchedPets = PetService.fetchAllPets()
+        
+        // Assign users and pets concurrently
+        self.users = try await fetchedUsers
+        self.pets = try await fetchedPets
     }
     
-    // Filtering logic for search
-    func filteredUsers(searchText: String) -> [User] {
-        if searchText.isEmpty {
-            return users
-        } else {
-            return users.filter { user in
-                (user.username?.lowercased().contains(searchText.lowercased()))! ||
-                (user.fullname?.lowercased().contains(searchText.lowercased()) ?? false)
-            }
-        }
+    // Function to fetch a pet for a specific user
+    func pet(for user: User) -> Pets? {
+        return pets.first(where: { $0.ownerUID == user.id })
     }
 }

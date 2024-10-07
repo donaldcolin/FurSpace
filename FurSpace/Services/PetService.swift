@@ -2,7 +2,6 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 
-
 class PetService {
     
     static let petCollection = Firestore.firestore().collection("pets")
@@ -25,5 +24,17 @@ class PetService {
             print("Error decoding pet data: \(error.localizedDescription)")
             throw error
         }
+    }
+
+    // Fetch all pets
+    static func fetchAllPets() async throws -> [Pets] {
+        let snapshot = try await petCollection.getDocuments()
+
+        // Decode all the documents into Pets objects
+        let pets = snapshot.documents.compactMap { document -> Pets? in
+            try? document.data(as: Pets.self)
+        }
+        
+        return pets
     }
 }

@@ -45,7 +45,7 @@ struct ProfileHeaderView: View {
             Button(action: {
                 // Add Friend action
             }) {
-                Text("Add Friend")
+                Text(user.IscurrentUser ? "edit profile" : "Follow")
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity, minHeight: 44)

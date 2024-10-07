@@ -5,9 +5,14 @@
 //  Created by Donald Colin on 16/09/24.
 //
 import SwiftUI
+import Kingfisher
 
 struct PostGridView: View {
-    var posts: [Post]
+
+    @StateObject var viewmodel:PostGridViewmodel
+    init(user:User){
+        self._viewmodel = StateObject(wrappedValue: PostGridViewmodel(user: user))
+    }
     
     let gridItems: [GridItem] = [
         .init(.flexible(), spacing: 1),
@@ -19,9 +24,9 @@ struct PostGridView: View {
     
     var body: some View {
         LazyVGrid(columns: gridItems, spacing: 1) {
-            ForEach(posts) { post in
+            ForEach(viewmodel.posts) { post in
                 // Use the correct variable for accessing the imageURL property
-                Image(post.imageURL) // Assuming these are local asset names
+                KFImage(URL(string: post.imageURL)) // Assuming these are local asset names
                     .resizable()
                     .scaledToFit()
                     .frame(width: imageDimension, height: imageDimension)
@@ -31,6 +36,4 @@ struct PostGridView: View {
     }
 }
 
-#Preview {
-    PostGridView(posts: Post.MOCK_POSTS)
-}
+

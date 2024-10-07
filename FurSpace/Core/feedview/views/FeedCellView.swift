@@ -2,14 +2,17 @@ import SwiftUI
 import Kingfisher
 
 struct FeedCellView: View {
-    let post: Post
-    @State private var isZoomed: Bool = false // State to manage zoom mode
+    @State var post: Post
+    let user: User // Assuming `user` is available in the view
+    let onLikeTapped: () async throws -> Void // Closure for like functionality
     
+    @State private var isZoomed: Bool = false // State to manage zoom mode
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // User Info Section
             HStack {
-                if let user = post.user{
+                if let user = post.user {
                     CircularProfileImageView(user: user, size: .small)
                 }
                 
@@ -38,12 +41,6 @@ struct FeedCellView: View {
                 .font(.body)
                 .lineLimit(3)
                 .padding(.horizontal)
-            
-            // Time Info
-//            Text(post.timestamp, style: .relative)
-//                .font(.footnote)
-//                .foregroundColor(.gray)
-//                .padding(.horizontal)
             
             // Post Image with Zoom Functionality
             ZStack {
@@ -86,11 +83,15 @@ struct FeedCellView: View {
             
             // Interaction Buttons
             HStack(spacing: 20) {
+                // Like Button
                 Button {
-                    print("likes")
+                    Task {
+                        try? await onLikeTapped()
+                    }
                 } label: {
-                    Image(systemName: "heart")
+                    Image(systemName: post.liked?.contains(user.id) ?? false ? "heart.fill" : "heart")
                         .imageScale(.large)
+                        .foregroundColor(post.liked?.contains(user.id) ?? false ? .red : .primary)
                 }
                 
                 Button {
@@ -123,7 +124,10 @@ struct FeedCellView: View {
         .padding(.vertical)
     }
 }
-
-#Preview {
-    FeedCellView(post: Post.MOCK_POSTS[0])
+struct FeedCellView_Previews: PreviewProvider {
+    static var previews: some View {
+        FeedCellView(post: Post.MOCK_POSTS[0], user: User.MOCK_USER[0]) {
+            print("Like button tapped")
+        }
+    }
 }
