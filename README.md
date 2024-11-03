@@ -1,5 +1,17 @@
-![Simulator Screenshot - iPhone 16 Pro - 2024-10-23 at 03 56 40](https://github.com/user-attachments/assets/2aeb98e2-78a7-4403-ab29-bc8bde0bb912)![Simulator Screenshot - iPhone 16 Pro - 2024-10-23 at 04 04 01](https://github.com/user-attachments/assets/15bb7d14-55f6-4b2e-b7ac-5a435f925e86)
-![Simulator Screenshot - iPhone 16 Pro - 2024-10-23 at 04 04 17](https://github.com/user-attachments/assets/6fd68d13-31f4-4809-9d72-774f11d5b762)
-![Simulator Screenshot - iPhone 16 Pro - 2024-10-23 at 03 56 47](https://github.com/user-attachments/assets/de4ea0e2-4244-4dbd-b27b-982958d390c0)
-![Simulator Screenshot - iPhone 16 Pro - 2024-10-23 at 03 56 40](https://github.com/user-attachments/assets/d2f8aea1-87b3-4ea7-8c1d-05042c01262c)
-![Simulator Screenshot - iPhone 16 Pro - 2024-10-23 at 03 58 45](https://github.com/user-attachments/assets/2c0d2df4-b596-4619-8b8a-586e51e23d49)
+# App Screenshots
+
+
+![Home Screen](https://github.com/user-attachments/assets/2aeb98e2-78a7-4403-ab29-bc8bde0bb912)
+
+
+![Posts Tab](https://github.com/user-attachments/assets/15bb7d14-55f6-4b2e-b7ac-5a435f925e86)
+![Requests Tab](https://github.com/user-attachments/assets/6fd68d13-31f4-4809-9d72-774f11d5b762)
+
+
+![Settings](https://github.com/user-attachments/assets/de4ea0e2-4244-4dbd-b27b-982958d390c0)
+
+
+![Profile](https://github.com/user-attachments/assets/d2f8aea1-87b3-4ea7-8c1d-05042c01262c)
+
+
+![Messages](https://github.com/user-attachments/assets/2c0d2df4-b596-4619-8b8a-586e51e23d49)
