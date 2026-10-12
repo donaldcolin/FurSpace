@@ -106,7 +106,7 @@ class AuthService {
         // Try uploading the data to the pets collection
         do {
             try await Firestore.firestore().collection("pets").document(petID).setData(petData)
-            print("Pet data uploaded successfully with ID: \(petID)")
+            print("Pet data uploaded successfull with ID: \(petID)")
         } catch {
             print("Error uploading pet data: \(error.localizedDescription)")
         }
