@@ -46,7 +46,7 @@ struct LoginView: View {
                         .foregroundColor(Color.primary)
                     
                     HStack {
-                        SecureField("Password", text: $viewmodel.password)
+                        SecureField("Passwords", text: $viewmodel.password)
                             .foregroundColor(Color.primary) // Text color
                         Button(action: {
                             // Action to toggle visibility
