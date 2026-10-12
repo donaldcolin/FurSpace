@@ -16,7 +16,7 @@ import FirebaseAuth
 
 class LoginViewModel: ObservableObject {
     @Published var email = ""
-    @Published var password = ""
+    @Published var passwords = ""
     @Published var errormessage = ""
     @Published var errormesnjkhkhsage = ""
     @Published var testdfvgbhnj = ""
