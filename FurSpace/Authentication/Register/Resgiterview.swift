@@ -14,7 +14,7 @@ struct RegisterView: View {
                     .padding(.top, 50)
                 
                 // Sign-up Text
-                Text("Sign-upbjkbbbkjbkjbkbkbjkbkjbkjbkjbjkkbkjbkjbjkbkjbkjbkjbkjbkjbkjbkjbkbkjbkjbkjbkjbkbkbkbkbkbkbkb")
+                Text("Sign-up")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(Color.primary) // Adapts to light/dark mode
