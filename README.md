@@ -1,3 +1,23 @@
+# FurSpace
+
+FurSpace is an open-source iOS ecosystem built in Swift, designed to connect pet owners, dog walkers, and veterinary professionals in a single, transparent community platform.
+
+## 🤖 AI Integration & Roadmap
+We are actively integrating Large Language Models (LLMs) into the FurSpace core infrastructure to power the following features:
+* **AI-Driven Matchmaking:** Smart matching between pet owners and walkers based on pet temperament, schedule density, and user reviews.
+* **Automated Vet Advice Parsing:** Summarizing and extracting actionable insights from veterinary posts and requests.
+* **Intelligent Community Moderation:** Automated scanning of community posts to ensure a safe, spam-free environment for all users.
+
+## 🛠 Tech Stack
+* **Frontend:** Swift / SwiftUI
+* **Architecture:** iOS Native
+* **AI/Backend:** Claude API (In Progress)
+
+## 🚀 Getting Started
+1. Clone the repository: `git clone https://github.com/donaldcolin/FurSpace.git`
+2. Open `FurSpace.xcodeproj` in Xcode.
+3. Build and run on your preferred iOS simulator.
+
 # App Screenshots
 
 
