@@ -19,7 +19,7 @@ struct PleaseVIew: View {
                     .frame( height: 300)
                     .padding(.top, 0)
                 Spacer()
-                Text("Greeting sfrom FurSpace")
+                Text("Greetings from FurSpace")
                 Spacer()
                 
                 Text("Hello **\(viewmodel.fullname)** please spare us two minutues to enter your details")
